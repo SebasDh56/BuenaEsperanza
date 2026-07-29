@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Gestión privada de noticias y proyectos de La Buena Esperanza de Guachalá."
+    >
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gestionar publicaciones | La Buena Esperanza">
+    <meta
+      property="og:description"
+      content="Listado administrativo para usuarios autorizados."
+    >
+    <title>Gestionar publicaciones | La Buena Esperanza</title>
+    <!-- @include:admin-styles -->
+  </head>
+  <body class="admin-body admin-auth-pending" data-admin-page="publicaciones">
+    <div class="admin-layout">
+      <!-- @include:admin-sidebar -->
+
+      <main class="admin-main" id="contenido">
+        <div
+          class="admin-notification"
+          role="alert"
+          data-admin-global-notification
+          hidden
+        ></div>
+        <div
+          class="admin-notification"
+          role="alert"
+          data-admin-access-error
+          hidden
+        ></div>
+
+        <header class="admin-page-header">
+          <div>
+            <p class="admin-eyebrow">Contenido editorial</p>
+            <h1>Publicaciones</h1>
+            <p>Busca, filtra y administra noticias y proyectos.</p>
+          </div>
+          <a class="admin-button admin-button--primary" href="/admin/editor.html">
+            Nueva publicación
+          </a>
+        </header>
+
+        <div
+          class="admin-notification"
+          role="status"
+          aria-live="polite"
+          data-publications-notification
+          hidden
+        ></div>
+
+        <section class="admin-panel" aria-labelledby="filters-title">
+          <h2 class="visually-hidden" id="filters-title">Filtros de publicaciones</h2>
+          <form class="admin-filters" data-publication-filters>
+            <div class="admin-field admin-field--search">
+              <label for="publication-search">Buscar por título</label>
+              <input
+                id="publication-search"
+                name="search"
+                type="search"
+                maxlength="100"
+                placeholder="Ejemplo: minga comunitaria"
+              >
+            </div>
+            <div class="admin-field">
+              <label for="publication-type">Tipo</label>
+              <select id="publication-type" name="type">
+                <option value="">Todos</option>
+                <option value="noticia">Noticias</option>
+                <option value="proyecto">Proyectos</option>
+              </select>
+            </div>
+            <div class="admin-field">
+              <label for="publication-state">Estado</label>
+              <select id="publication-state" name="state">
+                <option value="">Todos</option>
+                <option value="borrador">Borrador</option>
+                <option value="publicado">Publicado</option>
+                <option value="archivado">Archivado</option>
+              </select>
+            </div>
+            <div class="admin-filters__actions">
+              <button class="admin-button admin-button--primary" type="submit">
+                Aplicar
+              </button>
+              <button class="admin-button admin-button--ghost" type="reset">
+                Limpiar
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-panel" aria-labelledby="publication-list-title">
+          <div class="admin-panel__heading">
+            <h2 id="publication-list-title">Resultados</h2>
+          </div>
+          <div data-admin-publication-list aria-live="polite">
+            <div class="admin-loading" role="status">Cargando publicaciones…</div>
+          </div>
+          <nav class="admin-pagination" aria-label="Paginación" data-admin-pagination>
+            <button
+              class="admin-button admin-button--ghost"
+              type="button"
+              data-page-previous
+              disabled
+            >
+              Anterior
+            </button>
+            <span data-page-label>Página 1 de 1</span>
+            <button
+              class="admin-button admin-button--ghost"
+              type="button"
+              data-page-next
+              disabled
+            >
+              Siguiente
+            </button>
+          </nav>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="admin-dialog" data-delete-dialog>
+      <div>
+        <p class="admin-eyebrow">Acción permanente</p>
+        <h2>Eliminar publicación</h2>
+        <p>
+          Se eliminarán la publicación y su imagen principal. Esta acción no se
+          puede deshacer.
+        </p>
+        <p><strong data-delete-title></strong></p>
+        <div class="admin-dialog__actions">
+          <button
+            class="admin-button admin-button--ghost"
+            type="button"
+            data-delete-cancel
+          >
+            Cancelar
+          </button>
+          <button
+            class="admin-button admin-button--danger"
+            type="button"
+            data-delete-confirm
+          >
+            Eliminar definitivamente
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

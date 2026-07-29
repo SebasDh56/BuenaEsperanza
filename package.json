@@ -1,0 +1,15 @@
+{
+  "name": "la-buena-esperanza",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "validate:admin": "node scripts/validate-admin.mjs",
+    "validate:publications": "node scripts/validate-publications.mjs",
+    "verify:publications": "node scripts/validate-publications.mjs --require-config",
+    "validate:supabase": "node scripts/validate-supabase.mjs",
+    "check": "npm run build && npm run validate && npm run validate:supabase && npm run validate:publications && npm run validate:admin"
+  }
+}

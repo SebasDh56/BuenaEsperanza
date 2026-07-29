@@ -1,0 +1,60 @@
+:root {
+  /* Identidad: colores principales derivados del logotipo oficial. */
+  --color-green-950: #073719;
+  --color-green-900: #084622;
+  --color-green-800: #0c5b2d;
+  --color-green-700: #14733b;
+  --color-green-600: #258447;
+  --color-green-100: #e7f3e8;
+  --color-green-50: #f4f9f3;
+  --color-maize-600: #d58e00;
+  --color-maize-500: #f4b400;
+  --color-maize-300: #ffd75b;
+  --color-maize-100: #fff3c8;
+  --color-earth-700: #88452f;
+  --color-earth-500: #b96542;
+  --color-earth-100: #f6e8df;
+  --color-cream: #fbf8ee;
+  --color-sand: #eee4cf;
+  --color-white: #ffffff;
+  --color-ink: #14271a;
+  --color-muted: #56635a;
+  --color-line: #d9e3da;
+  --color-error: #a11f2c;
+  --color-focus: #075fcc;
+
+  /* Tipografía. */
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: clamp(1.7rem, 3vw, 2.25rem);
+  --text-3xl: clamp(2.25rem, 5vw, 4.25rem);
+  --text-hero: clamp(3rem, 8vw, 6.5rem);
+
+  /* Espaciado, forma y profundidad. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --shadow-sm: 0 0.5rem 1.5rem rgb(7 55 25 / 8%);
+  --shadow-md: 0 1.25rem 3.5rem rgb(7 55 25 / 13%);
+  --container-width: 74rem;
+  --content-width: 51rem;
+  --header-height: 5rem;
+}

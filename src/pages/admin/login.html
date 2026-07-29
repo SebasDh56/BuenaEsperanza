@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Acceso autorizado al panel administrativo de La Buena Esperanza de Guachalá."
+    >
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Acceso administrativo | La Buena Esperanza">
+    <meta
+      property="og:description"
+      content="Área privada para usuarios autorizados de la comunidad."
+    >
+    <title>Acceso administrativo | La Buena Esperanza</title>
+    <!-- @include:admin-styles -->
+  </head>
+  <body class="admin-login-page" data-admin-page="login">
+    <main class="admin-login">
+      <section class="admin-login__card" aria-labelledby="login-title">
+        <a class="admin-brand admin-brand--login" href="/index.html">
+          <img
+            src="/assets/images/logo-buena-esperanza-320.png"
+            width="72"
+            height="72"
+            alt=""
+            aria-hidden="true"
+          >
+          <span>
+            <strong>La Buena Esperanza</strong>
+            <small>de Guachalá</small>
+          </span>
+        </a>
+
+        <p class="admin-eyebrow">Área privada</p>
+        <h1 id="login-title">Iniciar sesión</h1>
+        <p class="admin-login__intro">
+          Acceso exclusivo para administradores y editores autorizados.
+        </p>
+
+        <div
+          class="admin-notification"
+          role="status"
+          aria-live="polite"
+          data-login-notification
+          hidden
+        ></div>
+
+        <form class="admin-form admin-login-form" data-login-form>
+          <div class="admin-field">
+            <label for="login-email">Correo electrónico</label>
+            <input
+              id="login-email"
+              name="email"
+              type="email"
+              autocomplete="username"
+              maxlength="254"
+              required
+            >
+          </div>
+
+          <div class="admin-field">
+            <label for="login-password">Contraseña</label>
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <button class="admin-button admin-button--primary" type="submit">
+            Iniciar sesión
+          </button>
+        </form>
+
+        <p class="admin-login__note">
+          Las cuentas se crean manualmente. El registro público está desactivado.
+        </p>
+        <a class="admin-back-link" href="/index.html">← Volver al sitio público</a>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

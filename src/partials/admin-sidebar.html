@@ -1,0 +1,57 @@
+<header class="admin-mobile-header">
+  <a class="admin-brand" href="/admin/dashboard.html" aria-label="Panel de La Buena Esperanza">
+    <img
+      src="/assets/images/logo-buena-esperanza-320.png"
+      width="54"
+      height="54"
+      alt=""
+      aria-hidden="true"
+    >
+    <span>
+      <strong>La Buena Esperanza</strong>
+      <small>Panel administrativo</small>
+    </span>
+  </a>
+  <button
+    class="admin-menu-toggle"
+    type="button"
+    aria-label="Abrir menú administrativo"
+    aria-controls="admin-sidebar"
+    aria-expanded="false"
+    data-admin-menu-toggle
+  >
+    Menú
+  </button>
+</header>
+
+<aside class="admin-sidebar" id="admin-sidebar" data-admin-sidebar data-open="false">
+  <a class="admin-brand admin-brand--sidebar" href="/admin/dashboard.html">
+    <img
+      src="/assets/images/logo-buena-esperanza-320.png"
+      width="62"
+      height="62"
+      alt=""
+      aria-hidden="true"
+    >
+    <span>
+      <strong>La Buena Esperanza</strong>
+      <small>Administración</small>
+    </span>
+  </a>
+
+  <nav class="admin-navigation" aria-label="Navegación administrativa">
+    <a href="/admin/dashboard.html" data-admin-nav="dashboard">Resumen</a>
+    <a href="/admin/publicaciones.html" data-admin-nav="publicaciones">Publicaciones</a>
+    <a href="/admin/editor.html" data-admin-nav="editor">Nueva publicación</a>
+    <a href="/index.html">Ver sitio público</a>
+  </nav>
+
+  <div class="admin-account">
+    <span class="admin-account__avatar" aria-hidden="true">BE</span>
+    <div>
+      <strong data-admin-user-name>Verificando sesión…</strong>
+      <small data-admin-user-role>Usuario autorizado</small>
+    </div>
+    <button type="button" data-admin-sign-out>Cerrar sesión</button>
+  </div>
+</aside>

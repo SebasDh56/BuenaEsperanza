@@ -1,0 +1,17 @@
+# Configuración local
+.env
+.env.*
+!.env.example
+
+# Salida generada
+dist/
+
+# Archivos temporales y registros
+tmp/
+*.log
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
