@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Resumen privado de publicaciones de La Buena Esperanza de Guachalá."
+    >
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Panel administrativo | La Buena Esperanza">
+    <meta
+      property="og:description"
+      content="Resumen de contenido para usuarios autorizados."
+    >
+    <title>Panel administrativo | La Buena Esperanza</title>
+    <!-- @include:admin-styles -->
+  </head>
+  <body class="admin-body admin-auth-pending" data-admin-page="dashboard">
+    <div class="admin-layout">
+      <!-- @include:admin-sidebar -->
+
+      <main class="admin-main" id="contenido">
+        <div
+          class="admin-notification"
+          role="alert"
+          data-admin-global-notification
+          hidden
+        ></div>
+        <div
+          class="admin-notification"
+          role="alert"
+          data-admin-access-error
+          hidden
+        ></div>
+
+        <header class="admin-page-header">
+          <div>
+            <p class="admin-eyebrow">Administración comunitaria</p>
+            <h1>Resumen</h1>
+            <p>
+              Estado general del contenido que tu cuenta puede administrar.
+            </p>
+          </div>
+          <a class="admin-button admin-button--primary" href="/admin/editor.html">
+            Nueva publicación
+          </a>
+        </header>
+
+        <div
+          class="admin-notification"
+          role="status"
+          aria-live="polite"
+          data-dashboard-notification
+          hidden
+        ></div>
+
+        <section class="admin-stats" aria-label="Resumen de publicaciones">
+          <article class="admin-stat-card admin-stat-card--featured">
+            <span>Total visible para tu rol</span>
+            <strong data-dashboard-stat="total">—</strong>
+          </article>
+          <article class="admin-stat-card">
+            <span>Borradores</span>
+            <strong data-dashboard-stat="drafts">—</strong>
+          </article>
+          <article class="admin-stat-card">
+            <span>Publicadas</span>
+            <strong data-dashboard-stat="published">—</strong>
+          </article>
+          <article class="admin-stat-card">
+            <span>Programadas</span>
+            <strong data-dashboard-stat="scheduled">—</strong>
+          </article>
+          <article class="admin-stat-card">
+            <span>Archivadas</span>
+            <strong data-dashboard-stat="archived">—</strong>
+          </article>
+        </section>
+
+        <section class="admin-panel" aria-labelledby="recent-title">
+          <div class="admin-panel__heading">
+            <div>
+              <p class="admin-eyebrow">Actividad reciente</p>
+              <h2 id="recent-title">Últimas publicaciones actualizadas</h2>
+            </div>
+            <a href="/admin/publicaciones.html">Ver todas</a>
+          </div>
+          <div data-dashboard-recent aria-live="polite">
+            <div class="admin-loading" role="status">Cargando resumen…</div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

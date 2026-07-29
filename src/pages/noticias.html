@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Noticias y actualidad verificadas de la Comunidad La Buena Esperanza de Guachalá."
+    >
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Noticias | La Buena Esperanza de Guachalá">
+    <meta
+      property="og:description"
+      content="Actividades, convocatorias y hechos confirmados por la comunidad."
+    >
+    <!-- @seo-meta -->
+    <title>Noticias | La Buena Esperanza de Guachalá</title>
+    <!-- @include:document-styles -->
+  </head>
+  <body data-page="actualidad">
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+    <!-- @include:site-header -->
+
+    <main id="contenido">
+      <header class="page-hero page-hero--news">
+        <div class="container page-hero__content">
+          <nav class="breadcrumbs" aria-label="Migas de pan">
+            <ol>
+              <li><a href="/index.html">Inicio</a></li>
+              <li aria-current="page">Noticias</li>
+            </ol>
+          </nav>
+          <p class="eyebrow eyebrow--light">Actualidad verificada</p>
+          <h1>Noticias</h1>
+          <p>
+            Actividades, convocatorias y hechos publicados por usuarios
+            autorizados.
+          </p>
+        </div>
+      </header>
+
+      <section class="section" aria-labelledby="news-list-title">
+        <div class="container">
+          <div class="listing-heading">
+            <div>
+              <p class="eyebrow">Publicaciones</p>
+              <h2 id="news-list-title">Actualidad comunitaria</h2>
+            </div>
+            <a class="button button--outline" href="/proyectos.html">Ver proyectos</a>
+          </div>
+
+          <div
+            class="publication-list"
+            data-publication-list
+            data-publication-type="noticia"
+            aria-live="polite"
+          >
+            <div class="publication-status publication-status--loading" role="status">
+              <span class="loading-indicator" aria-hidden="true"></span>
+              <p>Cargando noticias verificadas…</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--soft" aria-labelledby="news-states-title">
+        <div class="container container--content">
+          <div class="prose">
+            <p class="eyebrow">Transparencia editorial</p>
+            <h2 id="news-states-title">Cómo se presentará la información</h2>
+            <p>
+              Cada noticia tendrá título, resumen, contenido, imagen principal,
+              fecha de publicación y autoría. Las publicaciones borrador,
+              archivadas o programadas para el futuro no serán visibles.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- @include:internal-cta -->
+    </main>
+
+    <!-- @include:site-footer -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Detalle de una noticia publicada por la Comunidad La Buena Esperanza de Guachalá."
+    >
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Detalle de noticia | La Buena Esperanza">
+    <meta
+      property="og:description"
+      content="Página preparada para mostrar una noticia verificada."
+    >
+    <!-- @seo-meta -->
+    <title>Detalle de noticia | La Buena Esperanza de Guachalá</title>
+    <!-- @include:document-styles -->
+  </head>
+  <body data-page="actualidad">
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+    <!-- @include:site-header -->
+
+    <main id="contenido">
+      <section class="detail-state" aria-labelledby="noticia-detail-title">
+        <div class="container container--content">
+          <nav class="breadcrumbs breadcrumbs--dark" aria-label="Migas de pan">
+            <ol>
+              <li><a href="/index.html">Inicio</a></li>
+              <li><a href="/noticias.html">Noticias</a></li>
+              <li aria-current="page" data-detail-breadcrumb-current>Detalle</li>
+            </ol>
+          </nav>
+          <div
+            data-publication-detail
+            data-publication-type="noticia"
+            aria-live="polite"
+          >
+            <div class="empty-state">
+              <img src="/assets/icons/noticias.png" width="48" height="48" alt="" aria-hidden="true">
+              <span class="content-note">Cargando información</span>
+              <h1 id="noticia-detail-title">Cargando noticia…</h1>
+              <p>
+                Estamos consultando la publicación verificada.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- @include:site-footer -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

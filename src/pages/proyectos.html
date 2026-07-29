@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Proyectos de la Comunidad La Buena Esperanza de Guachalá e iniciativas que buscan colaboración."
+    >
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Proyectos | La Buena Esperanza de Guachalá">
+    <meta
+      property="og:description"
+      content="Iniciativas comunitarias verificadas y oportunidades de colaboración."
+    >
+    <!-- @seo-meta -->
+    <title>Proyectos | La Buena Esperanza de Guachalá</title>
+    <!-- @include:document-styles -->
+  </head>
+  <body data-page="actualidad">
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+    <!-- @include:site-header -->
+
+    <main id="contenido">
+      <header class="page-hero page-hero--projects">
+        <div class="container page-hero__content">
+          <nav class="breadcrumbs" aria-label="Migas de pan">
+            <ol>
+              <li><a href="/index.html">Inicio</a></li>
+              <li aria-current="page">Proyectos</li>
+            </ol>
+          </nav>
+          <p class="eyebrow eyebrow--light">Iniciativas comunitarias</p>
+          <h1>Proyectos</h1>
+          <p>
+            Acciones impulsadas por la comunidad y oportunidades para sumar
+            capacidades responsables.
+          </p>
+        </div>
+      </header>
+
+      <section class="section" aria-labelledby="projects-list-title">
+        <div class="container">
+          <div class="listing-heading">
+            <div>
+              <p class="eyebrow">Proyectos publicados</p>
+              <h2 id="projects-list-title">Iniciativas de La Buena Esperanza</h2>
+            </div>
+            <a class="button button--outline" href="/noticias.html">Ver noticias</a>
+          </div>
+
+          <div
+            class="publication-list"
+            data-publication-list
+            data-publication-type="proyecto"
+            aria-live="polite"
+          >
+            <div class="publication-status publication-status--loading" role="status">
+              <span class="loading-indicator" aria-hidden="true"></span>
+              <p>Cargando proyectos verificados…</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--cream" aria-labelledby="project-types-title">
+        <div class="container">
+          <div class="section-heading section-heading--center">
+            <p class="eyebrow">Participación</p>
+            <h2 id="project-types-title">Dos formas de impulsar iniciativas</h2>
+          </div>
+          <div class="proposal-grid">
+            <article class="card proposal-card">
+              <h3>Proyecto comunitario</h3>
+              <p>
+                Una necesidad o iniciativa definida por la comunidad que puede
+                requerir personas, conocimiento o alianzas.
+              </p>
+            </article>
+            <article class="card proposal-card proposal-card--maize">
+              <h3>Propuesta externa</h3>
+              <p>
+                Una idea presentada por estudiantes u organizaciones que debe
+                pasar por revisión antes de cualquier publicación.
+              </p>
+            </article>
+          </div>
+          <div class="centered-action">
+            <a class="button button--primary" href="/colabora.html">Conocer el proceso de colaboración</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- @include:internal-cta -->
+    </main>
+
+    <!-- @include:site-footer -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

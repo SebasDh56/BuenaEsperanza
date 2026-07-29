@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Editor privado de noticias y proyectos de La Buena Esperanza de Guachalá."
+    >
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Editor de publicaciones | La Buena Esperanza">
+    <meta
+      property="og:description"
+      content="Formulario editorial para usuarios autorizados."
+    >
+    <title>Editor de publicaciones | La Buena Esperanza</title>
+    <!-- @include:admin-styles -->
+  </head>
+  <body class="admin-body admin-auth-pending" data-admin-page="editor">
+    <div class="admin-layout">
+      <!-- @include:admin-sidebar -->
+
+      <main class="admin-main" id="contenido">
+        <div
+          class="admin-notification"
+          role="alert"
+          data-admin-global-notification
+          hidden
+        ></div>
+        <div
+          class="admin-notification"
+          role="alert"
+          data-admin-access-error
+          hidden
+        ></div>
+
+        <header class="admin-page-header">
+          <div>
+            <p class="admin-eyebrow">Contenido editorial</p>
+            <h1 data-editor-heading>Nueva publicación</h1>
+            <p>
+              Guarda un borrador, publica inmediatamente o programa una fecha.
+            </p>
+          </div>
+          <a class="admin-button admin-button--ghost" href="/admin/publicaciones.html">
+            Volver al listado
+          </a>
+        </header>
+
+        <div
+          class="admin-notification"
+          role="status"
+          aria-live="polite"
+          data-editor-notification
+          hidden
+        ></div>
+
+        <form class="admin-editor-form" data-publication-editor novalidate>
+          <section class="admin-panel admin-form-section" aria-labelledby="content-fields-title">
+            <div class="admin-panel__heading">
+              <div>
+                <p class="admin-eyebrow">Información principal</p>
+                <h2 id="content-fields-title">Contenido</h2>
+              </div>
+            </div>
+
+            <div class="admin-form-grid">
+              <div class="admin-field">
+                <label for="editor-type">Tipo</label>
+                <select id="editor-type" name="tipo" required>
+                  <option value="noticia">Noticia</option>
+                  <option value="proyecto">Proyecto</option>
+                </select>
+                <small class="admin-field-error" data-field-error="tipo"></small>
+              </div>
+
+              <div class="admin-field admin-field--wide">
+                <label for="editor-title">Título</label>
+                <input
+                  id="editor-title"
+                  name="titulo"
+                  type="text"
+                  minlength="5"
+                  maxlength="180"
+                  required
+                >
+                <small class="admin-field-error" data-field-error="titulo"></small>
+              </div>
+
+              <div class="admin-field admin-field--wide">
+                <label for="editor-slug">Slug de la URL</label>
+                <input
+                  id="editor-slug"
+                  name="slug"
+                  type="text"
+                  minlength="3"
+                  maxlength="180"
+                  pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                  required
+                >
+                <small>Se genera desde el título y puede ajustarse antes de publicar.</small>
+                <small class="admin-field-error" data-field-error="slug"></small>
+              </div>
+
+              <div class="admin-field admin-field--wide">
+                <label for="editor-summary">Resumen</label>
+                <textarea
+                  id="editor-summary"
+                  name="resumen"
+                  rows="4"
+                  minlength="20"
+                  maxlength="500"
+                  required
+                ></textarea>
+                <small>Entre 20 y 500 caracteres.</small>
+                <small class="admin-field-error" data-field-error="resumen"></small>
+              </div>
+
+              <div class="admin-field admin-field--wide">
+                <label for="editor-content">Contenido</label>
+                <textarea
+                  id="editor-content"
+                  name="contenido"
+                  rows="14"
+                  minlength="50"
+                  maxlength="50000"
+                  required
+                ></textarea>
+                <small>Separa los párrafos con una línea en blanco. No se admite HTML.</small>
+                <small class="admin-field-error" data-field-error="contenido"></small>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-panel admin-form-section" aria-labelledby="image-fields-title">
+            <div class="admin-panel__heading">
+              <div>
+                <p class="admin-eyebrow">Imagen principal</p>
+                <h2 id="image-fields-title">Imagen y accesibilidad</h2>
+              </div>
+            </div>
+
+            <div class="admin-image-editor">
+              <div class="admin-form-grid">
+                <div class="admin-field admin-field--wide">
+                  <label for="editor-image">Archivo original</label>
+                  <input
+                    id="editor-image"
+                    name="imagen"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                  >
+                  <small>JPG, PNG o WebP de hasta 20 MB. Se convertirá a WebP optimizado.</small>
+                  <small class="admin-field-error" data-field-error="imagen"></small>
+                  <p class="admin-image-status" data-image-status></p>
+                </div>
+
+                <div class="admin-field admin-field--wide">
+                  <label for="editor-image-alt">Texto alternativo</label>
+                  <input
+                    id="editor-image-alt"
+                    name="imagenAlt"
+                    type="text"
+                    maxlength="250"
+                  >
+                  <small>Describe brevemente lo importante de la imagen.</small>
+                  <small class="admin-field-error" data-field-error="imagenAlt"></small>
+                </div>
+              </div>
+
+              <figure class="admin-image-preview" data-image-preview hidden>
+                <img
+                  src="/assets/images/noticia-minga.svg"
+                  width="800"
+                  height="500"
+                  alt="Vista previa de la imagen principal"
+                >
+                <figcaption>Vista previa procesada</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="admin-panel admin-form-section" aria-labelledby="publication-fields-title">
+            <div class="admin-panel__heading">
+              <div>
+                <p class="admin-eyebrow">Visibilidad</p>
+                <h2 id="publication-fields-title">Estado y fecha</h2>
+              </div>
+            </div>
+
+            <div class="admin-form-grid">
+              <div class="admin-field">
+                <label for="editor-state">Estado</label>
+                <select id="editor-state" name="estado" required>
+                  <option value="borrador">Borrador</option>
+                  <option value="publicado">Publicado</option>
+                  <option value="archivado">Archivado</option>
+                </select>
+                <small class="admin-field-error" data-field-error="estado"></small>
+              </div>
+
+              <div class="admin-field" data-publication-timing-fields hidden>
+                <label for="editor-timing">Momento de publicación</label>
+                <select id="editor-timing" name="publicationTiming">
+                  <option value="ahora">Publicar inmediatamente</option>
+                  <option value="programar">Programar fecha</option>
+                </select>
+              </div>
+
+              <div class="admin-field" data-schedule-field hidden>
+                <label for="editor-scheduled-at">Fecha programada</label>
+                <input
+                  id="editor-scheduled-at"
+                  name="scheduledAt"
+                  type="datetime-local"
+                >
+                <small class="admin-field-error" data-field-error="scheduledAt"></small>
+              </div>
+            </div>
+          </section>
+
+          <div class="admin-editor-actions">
+            <a class="admin-button admin-button--ghost" href="/admin/publicaciones.html">
+              Cancelar
+            </a>
+            <button class="admin-button admin-button--primary" type="submit">
+              Guardar publicación
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>
