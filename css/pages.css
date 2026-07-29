@@ -21,19 +21,10 @@
     linear-gradient(
       90deg,
       rgb(4 34 16 / 91%) 0%,
-      rgb(4 34 16 / 70%) 50%,
-      rgb(4 34 16 / 18%) 100%
+      rgb(4 34 16 / 70%) 10%,
+      rgb(4 34 16 / 18%) 60%
     ),
-    url("../assets/images/hero.svg") center / cover no-repeat;
-}
-
-.hero::after {
-  z-index: -1;
-  opacity: 0.18;
-  background-image:
-    radial-gradient(circle at 15% 30%, var(--color-maize-300) 0 0.18rem, transparent 0.2rem),
-    radial-gradient(circle at 85% 70%, var(--color-white) 0 0.12rem, transparent 0.14rem);
-  background-size: 2.5rem 2.5rem, 3rem 3rem;
+    url("../assets/images/hero.jpeg") center / cover no-repeat;
 }
 
 .hero__content {
@@ -281,7 +272,7 @@
       rgb(4 34 16 / 72%) 54%,
       rgb(4 34 16 / 35%) 100%
     ),
-    var(--page-hero-image, url("../assets/images/hero.svg")) center / cover no-repeat;
+    var(--page-hero-image, url("../assets/images/hero.jpeg")) center / cover no-repeat;
 }
 
 .page-hero::after {
@@ -298,24 +289,24 @@
 
 .page-hero--community,
 .page-hero--history {
-  --page-hero-image: url("../assets/images/historia.svg");
+  --page-hero-image: url("/assets/images/historia.png");
 }
 
 .page-hero--culture,
 .page-hero--gallery {
-  --page-hero-image: url("../assets/images/cultura.svg");
+  --page-hero-image: url("../assets/images/cultura.jpeg");
 }
 
 .page-hero--territory {
-  --page-hero-image: url("../assets/images/hero.svg");
+  --page-hero-image: url("../assets/images/hero.");
 }
 
 .page-hero--production {
-  --page-hero-image: url("../assets/images/produccion.svg");
+  --page-hero-image: url("../assets/images/produccion.jpeg");
 }
 
 .page-hero--sport {
-  --page-hero-image: url("../assets/images/deporte.svg");
+  --page-hero-image: url("../assets/images/deporte.jpeg");
 }
 
 .page-hero--news {
@@ -1086,7 +1077,7 @@
   color: var(--color-white);
   background:
     linear-gradient(90deg, rgb(4 34 16 / 96%), rgb(7 55 25 / 86%)),
-    url("../assets/images/hero.svg") center / cover no-repeat;
+    url("../assets/images/hero.jpeg") center / cover no-repeat;
 }
 
 .not-found__content {
@@ -1179,7 +1170,7 @@
   .hero::before {
     background:
       linear-gradient(0deg, rgb(4 34 16 / 93%), rgb(4 34 16 / 52%)),
-      url("../assets/images/hero.svg") 62% center / cover no-repeat;
+      url("../assets/images/hero.jpeg") 62% center / cover no-repeat;
   }
 
   .stats-grid,
@@ -1196,7 +1187,7 @@
   .page-hero::before {
     background:
       linear-gradient(0deg, rgb(4 34 16 / 94%), rgb(4 34 16 / 58%)),
-      var(--page-hero-image, url("../assets/images/hero.svg")) center / cover no-repeat;
+      var(--page-hero-image, url("../assets/images/hero.jpeg")) center / cover no-repeat;
   }
 
   .page-hero__content {
