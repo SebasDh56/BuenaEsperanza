@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Galería de La Buena Esperanza de Guachalá, preparada para conservar fotografías comunitarias autorizadas y contextualizadas."
+      content="Galería de fotografías comunitarias reales, autorizadas y contextualizadas de La Buena Esperanza de Guachalá."
     >
     <meta name="theme-color" content="#073719">
     <meta property="og:locale" content="es_EC">
@@ -35,24 +35,44 @@
           <p class="eyebrow eyebrow--light">Memoria visual</p>
           <h1>Galería comunitaria</h1>
           <p>
-            Un espacio preparado para conservar fotografías con autorización,
-            fecha y contexto.
+            Fotografías reales publicadas con autorización, contexto y cuidado
+            de la memoria comunitaria.
           </p>
         </div>
       </header>
 
-      <section class="section" aria-labelledby="gallery-intro-title">
+      <section class="section" aria-labelledby="gallery-title">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">Vista temporal</p>
-            <h2 id="gallery-intro-title">Las fotografías reales están pendientes</h2>
+            <p class="eyebrow">Archivo comunitario</p>
+            <h2 id="gallery-title">La Buena Esperanza en imágenes</h2>
             <p>
-              Estas ilustraciones muestran la estructura visual prevista. No
-              representan eventos ni personas específicas de la comunidad.
+              Cada fotografía visible ha sido incorporada por una persona
+              autorizada. Cuando una fecha o un crédito no están confirmados,
+              no se muestran.
             </p>
-            <span class="content-note">Contenido de demostración identificado</span>
           </div>
 
+<<<<<<< HEAD
+          <div
+            class="gallery-grid"
+            data-gallery-list
+            aria-live="polite"
+            aria-busy="true"
+          >
+            <div class="gallery-loading" role="status">Cargando fotografías…</div>
+          </div>
+          <div class="gallery-actions">
+            <button
+              class="button button--outline"
+              type="button"
+              data-gallery-load-more
+              hidden
+            >
+              Cargar más
+            </button>
+            <p class="gallery-status" data-gallery-status aria-live="polite"></p>
+=======
           <div class="gallery-grid">
             <figure>
               <img src="/assets/images/historia.png" width="900" height="700" alt="Ilustración temporal de una reunión comunitaria" loading="lazy">
@@ -82,6 +102,7 @@
                 <span>Ilustración temporal</span>
               </figcaption>
             </figure>
+>>>>>>> 8ead2187ce20820a97a05129951dbe85a3ba04c5
           </div>
         </div>
       </section>
@@ -90,21 +111,23 @@
         <div class="container content-split">
           <div class="prose">
             <p class="eyebrow">Cuidado de la memoria</p>
-            <h2 id="gallery-policy-title">Criterios para incorporar fotografías</h2>
+            <h2 id="gallery-policy-title">Criterios de publicación</h2>
             <ul class="check-list">
               <li>Autorización para publicar la imagen.</li>
               <li>Descripción y texto alternativo.</li>
-              <li>Fecha o periodo, cuando se conozca.</li>
-              <li>Crédito o procedencia del archivo.</li>
-              <li>Relación clara con la historia comunitaria.</li>
+              <li>Fecha, sólo cuando esté confirmada.</li>
+              <li>Crédito o procedencia, cuando corresponda.</li>
+              <li>Relación clara con la comunidad.</li>
             </ul>
           </div>
           <aside class="notice-panel" role="note">
-            <span class="content-note">Decisión pendiente</span>
-            <h2>Administración de la galería</h2>
+            <span class="content-note">Gestión responsable</span>
+            <h2>Control editorial</h2>
             <p>
-              Antes de crear la tabla se debe confirmar si habrá álbumes,
-              categorías, orden manual y gestión completa desde el panel.
+              Administradores y editores pueden crear, actualizar, archivar y
+              eliminar fotografías. Las imágenes permanecen privadas en
+              almacenamiento y sólo se entregan temporalmente cuando su ficha
+              está publicada.
             </p>
           </aside>
         </div>
@@ -113,7 +136,34 @@
       <!-- @include:internal-cta -->
     </main>
 
+    <dialog class="gallery-dialog" data-gallery-dialog>
+      <div class="gallery-dialog__content">
+        <button
+          class="gallery-dialog__close"
+          type="button"
+          aria-label="Cerrar detalle"
+          data-gallery-dialog-close
+        >
+          ×
+        </button>
+        <img
+          src="/assets/images/produccion.svg"
+          width="1200"
+          height="900"
+          alt=""
+          data-gallery-dialog-image
+        >
+        <div class="gallery-dialog__copy">
+          <p class="eyebrow">Memoria comunitaria</p>
+          <h2 data-gallery-dialog-title></h2>
+          <p data-gallery-dialog-description></p>
+          <p class="gallery-dialog__metadata" data-gallery-dialog-metadata></p>
+        </div>
+      </div>
+    </dialog>
+
     <!-- @include:site-footer -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>

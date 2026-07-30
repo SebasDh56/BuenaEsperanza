@@ -53,7 +53,9 @@ Las rutas protegidas son:
 
 - `/admin/dashboard.html`;
 - `/admin/publicaciones.html`;
-- `/admin/editor.html`.
+- `/admin/editor.html`;
+- `/admin/galeria.html`;
+- `/admin/galeria-editor.html`.
 
 Sin una sesión válida se redirige al acceso. Esta redirección mejora la
 experiencia, pero la seguridad real se aplica mediante RLS en PostgreSQL y
@@ -70,11 +72,13 @@ El botón **Cerrar sesión** elimina únicamente la sesión del navegador actual
 - Edita, publica, programa, archiva y elimina únicamente sus publicaciones.
 - Sube archivos solamente dentro de la carpeta asociada con su UUID.
 - No cambia roles ni administra publicaciones privadas de otras cuentas.
+- Crea, publica, ordena, archiva y elimina únicamente sus fotografías.
 
 ### Administrador
 
 - Ve y administra todas las publicaciones.
 - Puede reemplazar la imagen de una publicación creada por otro autor.
+- Puede administrar fotografías creadas por cualquier autor.
 - Puede cambiar roles desde la base de datos.
 - No gestiona usuarios de Auth desde el frontend; las cuentas se crean
   manualmente en Dashboard.
@@ -112,7 +116,19 @@ El formulario acepta JPG, PNG o WebP de hasta 20 MB. Antes de subir:
 El bucket permanece privado. El panel y el sitio público solicitan URLs firmadas
 temporales para mostrar las imágenes.
 
-## 7. Archivar o eliminar
+## 7. Gestionar la galería
+
+1. Abre **Galería** y selecciona **Nueva fotografía**.
+2. Registra un título y una descripción verificable.
+3. Sube una fotografía real con autorización y escribe su texto alternativo.
+4. Añade fecha y crédito únicamente si están confirmados.
+5. Define un orden: los números menores aparecen primero.
+6. Guarda como borrador, publica inmediatamente o archiva.
+
+La galería no usa álbumes ni categorías en esta fase. Una ficha siempre requiere
+imagen; el archivo recibe el mismo procesamiento WebP usado por publicaciones.
+
+## 8. Archivar o eliminar
 
 **Archivar** oculta el contenido sin borrar su registro ni su imagen.
 
@@ -120,13 +136,13 @@ La eliminación definitiva solicita confirmación y sigue este orden:
 
 1. archiva la publicación para retirarla del sitio público;
 2. elimina la imagen de Storage;
-3. elimina la fila de `public.publicaciones`.
+3. elimina la fila de `public.publicaciones` o `public.galeria_items`.
 
 Si Storage falla, el registro permanece archivado y la acción puede
 reintentarse. Este orden evita dejar visible una publicación con su imagen
 eliminada.
 
-## 8. Comprobaciones recomendadas
+## 9. Comprobaciones recomendadas
 
 Antes de publicar contenido real:
 
@@ -144,3 +160,7 @@ Después prueba con una cuenta editor y otra administrador:
 - intento de editar contenido ajeno;
 - reemplazo de imagen por administrador;
 - archivado y eliminación confirmada.
+- creación de una fotografía en borrador;
+- publicación directa y visibilidad pública;
+- orden manual y detalle de la fotografía;
+- intento del editor de modificar una fotografía ajena.

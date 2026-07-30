@@ -5,8 +5,10 @@ credenciales elevadas. La configuración pública local ya utiliza la URL y la
 clave `sb_publishable_…` proporcionadas; ambas viven únicamente en `.env`, que
 Git ignora.
 
-El esquema, RLS y Storage fueron aplicados y verificados en el proyecto remoto
-el 28 de julio de 2026. No vuelvas a ejecutar los cuatro scripts aplicados.
+El esquema, RLS y Storage de publicaciones fueron aplicados el 28 de julio de
+2026. La extensión de galería fue aplicada y verificada el 29 de julio de 2026.
+No vuelvas a ejecutar scripts ya aplicados salvo que una migración indique de
+forma explícita que es idempotente.
 
 ## 1. Credenciales y alcance
 
@@ -54,9 +56,15 @@ Los siguientes archivos ya fueron ejecutados en este orden:
 2. `supabase/policies/202607280002_row_level_security.sql`;
 3. `supabase/policies/202607280003_storage.sql`;
 4. `supabase/policies/202607280004_storage_admin_upload.sql`.
+5. `supabase/migrations/202607290005_gallery_schema.sql`.
+6. `supabase/policies/202607290006_gallery_rls.sql`.
+7. `supabase/policies/202607290007_gallery_storage.sql`.
 
-`supabase/tests/verify_deployment.sql` devolvió 13 resultados verdaderos y
-ningún fallo. La API pública de `publicaciones` también respondió HTTP 200.
+`supabase/tests/verify_deployment.sql` devolvió 19 de 19 resultados verdaderos
+y ningún fallo. `verify_gallery_access.sql` devolvió 9 de 9 controles correctos
+para visitante, editor y administrador; su transacción revirtió todos los datos
+de prueba. La comprobación posterior confirmó cero usuarios, filas y archivos
+de prueba.
 
 ## 4. Configurar Authentication
 
@@ -130,6 +138,11 @@ final quedó restaurado a `administrador`.
 Una publicación con estado `publicado` y fecha futura permanece oculta hasta
 que `fecha_publicacion <= now()`. No requiere una tarea programada externa.
 
+La misma matriz se aplica a `galeria_items`: el visitante sólo lee fotografías
+publicadas, el editor administra las propias y el administrador administra
+todas. A diferencia de las publicaciones editoriales, la galería no utiliza
+programación de fecha.
+
 ## 7. Storage
 
 El script crea el bucket privado `publicaciones` con:
@@ -149,6 +162,11 @@ Al eliminar una publicación, la aplicación la archiva, elimina su objeto de
 Storage y finalmente elimina la fila. Si falla el archivo, la publicación
 permanece archivada para evitar que quede visible con una imagen ausente.
 
+La Fase 6 añade el bucket privado `galeria` con los mismos límites de archivo y
+MIME. Una imagen de galería sólo puede leerse públicamente cuando su ruta está
+asociada con una fila `galeria_items` en estado `publicado`. El editor escribe
+en su carpeta UUID; el administrador puede gestionar cualquier carpeta.
+
 ## 8. Datos de demostración
 
 `supabase/seed/seed.sql` no inserta nada por defecto. Para usarlo:
@@ -167,6 +185,8 @@ Los archivos pgTAP están en `supabase/tests/database/`:
 
 - `schema.test.sql` comprueba tablas, tipos, triggers, permisos, RLS y bucket;
 - `rls.test.sql` simula visitante, dos editores y un administrador.
+- `verify_gallery_access.sql` comprueba nueve reglas de acceso y revierte sus
+  usuarios, fotografías y cambios de prueba.
 
 Para ejecutarlos se requiere Supabase CLI y un motor de contenedores activo:
 
@@ -177,8 +197,9 @@ npx supabase test db
 
 En este equipo la CLI no está instalada y Docker Desktop no está iniciado. No
 se agregó ninguna dependencia sin autorización. La verificación estática local
-se ejecuta siempre mediante `npm run check`; la consulta
-`verify_deployment.sql` permite confirmar el proyecto remoto desde Dashboard.
+se ejecuta siempre mediante `npm run check`; las consultas
+`verify_deployment.sql` y `verify_gallery_access.sql` permiten confirmar el
+proyecto remoto desde Dashboard.
 
 ## 10. Conexión de la Fase 4
 

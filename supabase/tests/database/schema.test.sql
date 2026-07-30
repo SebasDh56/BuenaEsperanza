@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(23);
+select plan(32);
 
 select has_table(
   'public',
@@ -14,6 +14,12 @@ select has_table(
   'public',
   'publicaciones',
   'Existe public.publicaciones.'
+);
+
+select has_table(
+  'public',
+  'galeria_items',
+  'Existe public.galeria_items.'
 );
 
 select is(
@@ -78,6 +84,17 @@ select ok(
 );
 
 select ok(
+  (
+    select table_class.relrowsecurity
+    from pg_class as table_class
+    join pg_namespace as table_schema on table_schema.oid = table_class.relnamespace
+    where table_schema.nspname = 'public'
+      and table_class.relname = 'galeria_items'
+  ),
+  'RLS está activo en galeria_items.'
+);
+
+select ok(
   exists (
     select 1
     from pg_trigger
@@ -95,6 +112,16 @@ select ok(
       and not tgisinternal
   ),
   'Existe el trigger de publicaciones.'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_trigger
+    where tgname = 'prepare_gallery_item_before_write'
+      and not tgisinternal
+  ),
+  'Existe el trigger de galería.'
 );
 
 select ok(
@@ -155,6 +182,17 @@ select is(
   'Publicaciones tiene cinco políticas explícitas.'
 );
 
+select is(
+  (
+    select count(*)
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'galeria_items'
+  ),
+  5::bigint,
+  'Galería tiene cinco políticas explícitas.'
+);
+
 select ok(
   has_table_privilege('anon', 'public.publicaciones', 'SELECT')
   and not has_table_privilege('anon', 'public.publicaciones', 'INSERT')
@@ -172,6 +210,22 @@ select ok(
 );
 
 select ok(
+  has_table_privilege('anon', 'public.galeria_items', 'SELECT')
+  and not has_table_privilege('anon', 'public.galeria_items', 'INSERT')
+  and not has_table_privilege('anon', 'public.galeria_items', 'UPDATE')
+  and not has_table_privilege('anon', 'public.galeria_items', 'DELETE'),
+  'Anon sólo tiene privilegio SELECT en galería.'
+);
+
+select ok(
+  has_table_privilege('authenticated', 'public.galeria_items', 'SELECT')
+  and has_table_privilege('authenticated', 'public.galeria_items', 'INSERT')
+  and has_table_privilege('authenticated', 'public.galeria_items', 'UPDATE')
+  and has_table_privilege('authenticated', 'public.galeria_items', 'DELETE'),
+  'Authenticated tiene privilegios de galería restringidos después por RLS.'
+);
+
+select ok(
   (
     select count(*) >= 4
     from pg_indexes
@@ -182,12 +236,33 @@ select ok(
 );
 
 select ok(
+  (
+    select count(*) >= 4
+    from pg_indexes
+    where schemaname = 'public'
+      and tablename = 'galeria_items'
+  ),
+  'Galería tiene índices para clave, imagen, autor y listado público.'
+);
+
+select ok(
   exists (
     select 1
     from storage.buckets
     where id = 'publicaciones'
   ),
   'Existe el bucket publicaciones.'
+);
+
+select ok(
+  exists (
+    select 1
+    from storage.buckets
+    where id = 'galeria'
+      and not public
+      and file_size_limit = 5242880
+  ),
+  'Existe el bucket privado galeria con límite de 5 MB.'
 );
 
 select ok(
@@ -229,6 +304,18 @@ select is(
   ),
   5::bigint,
   'Storage tiene cinco políticas específicas.'
+);
+
+select is(
+  (
+    select count(*)
+    from pg_policies
+    where schemaname = 'storage'
+      and tablename = 'objects'
+      and policyname like 'storage_galeria_%'
+  ),
+  5::bigint,
+  'Storage tiene cinco políticas específicas para galería.'
 );
 
 select ok(

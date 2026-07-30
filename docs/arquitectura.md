@@ -53,6 +53,16 @@ Desde la Fase 5, el panel añade:
 - procesamiento de imágenes antes de Storage;
 - autorización definitiva en RLS, sin depender de controles visuales.
 
+Desde la Fase 6, la galería aplica el mismo patrón vertical:
+
+- vista pública, controlador y servicio de datos separados;
+- CRUD administrativo y validación específica para fotografías;
+- tabla `galeria_items` con restricciones, índices, trigger y RLS;
+- bucket privado `galeria` con URLs firmadas y límite de 5 MB;
+- carga progresiva, detalle accesible con `dialog` y estado vacío real;
+- pruebas transaccionales de visitante, editor y administrador;
+- contacto sin formulario ni canales inventados mientras falten confirmaciones.
+
 ## Identidad visual
 
 Los colores principales se derivan del logotipo:

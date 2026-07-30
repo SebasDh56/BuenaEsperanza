@@ -5,7 +5,7 @@ La aplicación usa HTML5, CSS3 y JavaScript ES6 modular, sin frameworks.
 
 ## Estado
 
-Las Fases 1, 2, 3, 4 y 5 establecen:
+Las Fases 1, 2, 3, 4, 5 y 6 establecen:
 
 - Arquitectura fuente y salida generada.
 - Sistema visual basado en el logotipo oficial.
@@ -29,11 +29,16 @@ Las Fases 1, 2, 3, 4 y 5 establecen:
 - Autenticación cerrada para administradores y editores.
 - Panel administrativo con CRUD, filtros y programación.
 - Procesamiento local de imágenes a WebP antes de subirlas.
+- Galería pública conectada a fotografías reales con carga progresiva y detalle.
+- CRUD de galería para administrador y editor, con orden manual y estados.
+- Bucket privado, RLS y pruebas por rol específicas para fotografías.
+- Contacto responsable sin publicar canales todavía no confirmados.
 
 El esquema, RLS y Storage de Supabase están aplicados en ComunaPage. La
-verificación remota terminó con 12 de 12 controles aprobados y las vistas
-públicas ya consultan el proyecto real. La base todavía no contiene
-publicaciones públicas, por lo que se muestra un estado vacío controlado.
+verificación remota terminó con 19 de 19 controles de estructura y 9 de 9
+controles de acceso de galería aprobados. La base todavía no contiene
+publicaciones ni fotografías públicas, por lo que se muestran estados vacíos
+controlados.
 
 ## Requisitos
 
@@ -61,7 +66,7 @@ Después abre `http://127.0.0.1:4173/index.html`.
 ## Estructura
 
 - `src/pages/`: documentos HTML fuente.
-- `src/pages/admin/`: acceso, dashboard, listado y editor protegidos.
+- `src/pages/admin/`: acceso, dashboard y CRUD protegidos de publicaciones y galería.
 - `src/partials/`: header y footer reutilizables.
 - `css/`: tokens, base, layout, componentes y estilos de páginas.
 - `js/`: módulos JavaScript.
