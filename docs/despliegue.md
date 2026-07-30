@@ -34,6 +34,16 @@ añade un dominio propio, incluye ambas URL HTTPS.
 - Directorio de salida: `dist`
 - Versión de Node.js: 20 o posterior
 
+Si el proyecto de Cloudflare utiliza **Workers Builds** y muestra un campo
+**Deploy command**, usa:
+
+```text
+npx wrangler deploy
+```
+
+El archivo `wrangler.jsonc` indica que `dist/` contiene los recursos estáticos,
+por lo que Wrangler no necesita un script Worker.
+
 Variables de producción:
 
 ```text
