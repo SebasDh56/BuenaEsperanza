@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gestión privada de propuestas comunitarias.">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Propuestas | La Buena Esperanza">
+    <meta property="og:description" content="Gestión privada de propuestas comunitarias.">
+    <title>Propuestas | La Buena Esperanza</title>
+    <!-- @include:admin-styles -->
+  </head>
+  <body class="admin-body admin-auth-pending" data-admin-page="propuestas">
+    <div class="admin-layout">
+      <!-- @include:admin-sidebar -->
+      <main class="admin-main" id="contenido">
+        <div class="admin-notification" role="alert" data-admin-global-notification hidden></div>
+        <div class="admin-notification" role="alert" data-admin-access-error hidden></div>
+
+        <header class="admin-page-header">
+          <div>
+            <p class="admin-eyebrow">Participación privada</p>
+            <h1>Propuestas</h1>
+            <p>Revisa las solicitudes recibidas sin publicar sus datos.</p>
+          </div>
+        </header>
+
+        <div class="admin-notification" role="status" aria-live="polite" data-proposals-notification hidden></div>
+
+        <section class="admin-panel" aria-labelledby="proposal-filters-title">
+          <h2 class="visually-hidden" id="proposal-filters-title">Filtros de propuestas</h2>
+          <form class="admin-filters" data-proposal-filters>
+            <div class="admin-field admin-field--search">
+              <label for="proposal-search">Buscar por título</label>
+              <input id="proposal-search" name="search" type="search" maxlength="100">
+            </div>
+            <div class="admin-field">
+              <label for="proposal-type-filter">Tipo</label>
+              <select id="proposal-type-filter" name="type">
+                <option value="">Todos</option>
+                <option value="pasantia">Pasantía</option>
+                <option value="tesis">Tesis</option>
+                <option value="investigacion">Investigación</option>
+                <option value="proyecto_comunitario">Proyecto comunitario</option>
+                <option value="apoyo_institucional">Apoyo institucional</option>
+                <option value="otro">Otra</option>
+              </select>
+            </div>
+            <div class="admin-field">
+              <label for="proposal-state-filter">Estado</label>
+              <select id="proposal-state-filter" name="state">
+                <option value="">Todos</option>
+                <option value="nueva">Nueva</option>
+                <option value="en_revision">En revisión</option>
+                <option value="contactada">Contactada</option>
+                <option value="aceptada">Aceptada</option>
+                <option value="cerrada">Cerrada</option>
+              </select>
+            </div>
+            <div class="admin-filters__actions">
+              <button class="admin-button admin-button--primary" type="submit">Aplicar</button>
+              <button class="admin-button admin-button--ghost" type="reset">Limpiar</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-panel" aria-labelledby="proposal-list-title">
+          <div class="admin-panel__heading">
+            <h2 id="proposal-list-title">Solicitudes recibidas</h2>
+          </div>
+          <div data-admin-proposal-list aria-live="polite">
+            <div class="admin-loading" role="status">Cargando propuestas…</div>
+          </div>
+          <nav class="admin-pagination" aria-label="Paginación" data-admin-pagination>
+            <button class="admin-button admin-button--ghost" type="button" data-page-previous disabled>Anterior</button>
+            <span data-page-label>Página 1 de 1</span>
+            <button class="admin-button admin-button--ghost" type="button" data-page-next disabled>Siguiente</button>
+          </nav>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

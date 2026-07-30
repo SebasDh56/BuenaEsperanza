@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Detalle privado de una propuesta comunitaria.">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#073719">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Revisar propuesta | La Buena Esperanza">
+    <meta property="og:description" content="Detalle privado de una propuesta comunitaria.">
+    <title>Revisar propuesta | La Buena Esperanza</title>
+    <!-- @include:admin-styles -->
+  </head>
+  <body class="admin-body admin-auth-pending" data-admin-page="propuesta">
+    <div class="admin-layout">
+      <!-- @include:admin-sidebar -->
+      <main class="admin-main" id="contenido">
+        <div class="admin-notification" role="alert" data-admin-global-notification hidden></div>
+        <div class="admin-notification" role="alert" data-admin-access-error hidden></div>
+
+        <header class="admin-page-header">
+          <div>
+            <p class="admin-eyebrow">Revisión privada</p>
+            <h1 data-proposal-title>Propuesta</h1>
+            <p>Los datos de esta solicitud no son públicos.</p>
+          </div>
+          <a class="admin-button admin-button--ghost" href="/admin/propuestas.html">Volver a propuestas</a>
+        </header>
+
+        <div class="admin-notification" role="status" aria-live="polite" data-proposal-notification hidden></div>
+
+        <div data-proposal-detail aria-busy="true">
+          <div class="admin-loading" role="status">Cargando propuesta…</div>
+        </div>
+
+        <form class="admin-form" data-proposal-review hidden>
+          <section class="admin-panel admin-form-section" aria-labelledby="review-title">
+            <div class="admin-panel__heading">
+              <div>
+                <p class="admin-eyebrow">Seguimiento</p>
+                <h2 id="review-title">Estado y notas internas</h2>
+              </div>
+            </div>
+            <div class="admin-form-grid">
+              <div class="admin-field">
+                <label for="proposal-review-state">Estado</label>
+                <select id="proposal-review-state" name="estado" required>
+                  <option value="nueva">Nueva</option>
+                  <option value="en_revision">En revisión</option>
+                  <option value="contactada">Contactada</option>
+                  <option value="aceptada">Aceptada</option>
+                  <option value="cerrada">Cerrada</option>
+                </select>
+              </div>
+              <div class="admin-field admin-field--wide">
+                <label for="proposal-review-notes">Notas internas</label>
+                <textarea id="proposal-review-notes" name="notas" rows="7" maxlength="5000"></textarea>
+                <small>Sólo son visibles para administradores y editores.</small>
+              </div>
+            </div>
+          </section>
+          <div class="admin-editor-actions">
+            <button class="admin-button admin-button--danger" type="button" data-proposal-delete hidden>Eliminar propuesta</button>
+            <button class="admin-button admin-button--primary" type="submit">Guardar seguimiento</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <dialog class="admin-dialog" data-proposal-delete-dialog>
+      <div>
+        <p class="admin-eyebrow">Acción permanente</p>
+        <h2>Eliminar propuesta</h2>
+        <p>Se eliminarán la solicitud y su PDF. Esta acción no se puede deshacer.</p>
+        <div class="admin-dialog__actions">
+          <button class="admin-button admin-button--ghost" type="button" data-delete-cancel>Cancelar</button>
+          <button class="admin-button admin-button--danger" type="button" data-delete-confirm>Eliminar definitivamente</button>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

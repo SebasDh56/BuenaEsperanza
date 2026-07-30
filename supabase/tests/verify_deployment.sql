@@ -19,6 +19,11 @@ with checks (verificacion, resultado, detalle) as (
       'Debe existir public.galeria_items.'
     ),
     (
+      'Tabla propuestas',
+      to_regclass('public.propuestas') is not null,
+      'Debe existir public.propuestas.'
+    ),
+    (
       'RLS en profiles',
       coalesce(
         (
@@ -64,6 +69,21 @@ with checks (verificacion, resultado, detalle) as (
       'RLS debe estar habilitado.'
     ),
     (
+      'RLS en propuestas',
+      coalesce(
+        (
+          select table_class.relrowsecurity
+          from pg_class as table_class
+          join pg_namespace as table_schema
+            on table_schema.oid = table_class.relnamespace
+          where table_schema.nspname = 'public'
+            and table_class.relname = 'propuestas'
+        ),
+        false
+      ),
+      'RLS debe estar habilitado.'
+    ),
+    (
       'Políticas de profiles',
       (
         select count(*) = 2
@@ -94,6 +114,16 @@ with checks (verificacion, resultado, detalle) as (
       'Deben existir cinco políticas.'
     ),
     (
+      'Políticas de propuestas',
+      (
+        select count(*) = 3
+        from pg_policies
+        where schemaname = 'public'
+          and tablename = 'propuestas'
+      ),
+      'Deben existir tres políticas.'
+    ),
+    (
       'Anon sin escritura',
       not has_table_privilege('anon', 'public.publicaciones', 'INSERT')
       and not has_table_privilege('anon', 'public.publicaciones', 'UPDATE')
@@ -106,6 +136,14 @@ with checks (verificacion, resultado, detalle) as (
       and not has_table_privilege('anon', 'public.galeria_items', 'UPDATE')
       and not has_table_privilege('anon', 'public.galeria_items', 'DELETE'),
       'Anon no debe escribir fotografías.'
+    ),
+    (
+      'Anon sin acceso directo a propuestas',
+      not has_table_privilege('anon', 'public.propuestas', 'SELECT')
+      and not has_table_privilege('anon', 'public.propuestas', 'INSERT')
+      and not has_table_privilege('anon', 'public.propuestas', 'UPDATE')
+      and not has_table_privilege('anon', 'public.propuestas', 'DELETE'),
+      'Anon sólo puede enviar mediante la Edge Function.'
     ),
     (
       'Trigger de perfiles',
@@ -141,6 +179,42 @@ with checks (verificacion, resultado, detalle) as (
         false
       ),
       'El bucket galeria debe existir, ser privado y limitar 5 MB.'
+    ),
+    (
+      'Bucket propuestas privado',
+      coalesce(
+        (
+          select not public
+            and file_size_limit = 5242880
+            and allowed_mime_types = array['application/pdf']
+          from storage.buckets
+          where id = 'propuestas'
+        ),
+        false
+      ),
+      'El bucket propuestas debe ser privado y aceptar sólo PDF de 5 MB.'
+    ),
+    (
+      'Miniaturas de publicaciones',
+      exists (
+        select 1
+        from information_schema.columns
+        where table_schema = 'public'
+          and table_name = 'publicaciones'
+          and column_name = 'imagen_miniatura_path'
+      ),
+      'Las publicaciones deben disponer de una ruta de miniatura.'
+    ),
+    (
+      'Miniaturas de galería',
+      exists (
+        select 1
+        from information_schema.columns
+        where table_schema = 'public'
+          and table_name = 'galeria_items'
+          and column_name = 'imagen_miniatura_path'
+      ),
+      'La galería debe disponer de una ruta de miniatura.'
     ),
     (
       'Límite de Storage',

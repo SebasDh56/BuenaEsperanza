@@ -35,6 +35,7 @@ const sitemapPages = [
   "galeria.html",
   "colabora.html",
   "contacto.html",
+  "privacidad.html",
 ];
 
 async function loadLocalEnvironment() {
@@ -54,6 +55,7 @@ async function loadLocalEnvironment() {
     "SITE_URL",
     "SUPABASE_URL",
     "SUPABASE_PUBLISHABLE_KEY",
+    "TURNSTILE_SITE_KEY",
   ]);
 
   for (const rawLine of source.split(/\r?\n/)) {
@@ -148,6 +150,21 @@ function supabaseConfigFromEnvironment() {
   return {
     supabaseUrl: parsedUrl.toString().replace(/\/$/, ""),
     supabasePublishableKey: publishableKey,
+  };
+}
+
+function turnstileConfigFromEnvironment() {
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY?.trim() ?? "";
+
+  if (
+    turnstileSiteKey &&
+    !/^[A-Za-z0-9_-]{10,100}$/.test(turnstileSiteKey)
+  ) {
+    throw new Error("TURNSTILE_SITE_KEY no tiene un formato válido.");
+  }
+
+  return {
+    turnstileSiteKey: turnstileSiteKey || null,
   };
 }
 
@@ -304,6 +321,34 @@ async function writeSearchEngineFiles(siteUrl) {
   await writeFile(join(outputDirectory, "sitemap.xml"), sitemap, "utf8");
 }
 
+async function writeCloudflareFiles() {
+  const contentSecurityPolicy = [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://cloudflareinsights.com",
+    "font-src 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "frame-src https://challenges.cloudflare.com",
+    "img-src 'self' data: blob: https://*.supabase.co",
+    "object-src 'none'",
+    "script-src 'self' https://cdn.jsdelivr.net https://challenges.cloudflare.com https://static.cloudflareinsights.com",
+    "style-src 'self'",
+    "upgrade-insecure-requests",
+  ].join("; ");
+  const headers = [
+    "/*",
+    `  Content-Security-Policy: ${contentSecurityPolicy}`,
+    "  Referrer-Policy: strict-origin-when-cross-origin",
+    "  X-Content-Type-Options: nosniff",
+    "  X-Frame-Options: DENY",
+    "  Permissions-Policy: camera=(), geolocation=(), microphone=()",
+    "",
+  ].join("\n");
+
+  await writeFile(join(outputDirectory, "_headers"), headers, "utf8");
+}
+
 async function build() {
   assertSafeOutputDirectory();
   await loadLocalEnvironment();
@@ -311,12 +356,16 @@ async function build() {
   await mkdir(outputDirectory, { recursive: true });
 
   const siteUrl = siteUrlFromEnvironment();
-  const supabaseConfig = supabaseConfigFromEnvironment();
+  const runtimeConfig = {
+    ...supabaseConfigFromEnvironment(),
+    ...turnstileConfigFromEnvironment(),
+  };
   const partials = await loadPartials();
   await buildPages(partials, siteUrl);
   await copyStaticDirectories();
-  await writeRuntimeConfig(supabaseConfig);
+  await writeRuntimeConfig(runtimeConfig);
   await writeSearchEngineFiles(siteUrl);
+  await writeCloudflareFiles();
 
   console.log(
     siteUrl

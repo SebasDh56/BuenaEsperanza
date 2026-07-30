@@ -4,6 +4,10 @@ const AUTHORIZED_ROLES = new Set(["administrador", "editor"]);
 const SAFE_ADMIN_PATHS = new Set([
   "/admin/dashboard.html",
   "/admin/editor.html",
+  "/admin/galeria.html",
+  "/admin/galeria-editor.html",
+  "/admin/propuesta.html",
+  "/admin/propuestas.html",
   "/admin/publicaciones.html",
 ]);
 

@@ -8,9 +8,11 @@
     "validate": "node scripts/validate.mjs",
     "validate:admin": "node scripts/validate-admin.mjs",
     "validate:gallery": "node scripts/validate-gallery.mjs",
+    "validate:proposals": "node scripts/validate-proposals.mjs",
     "validate:publications": "node scripts/validate-publications.mjs",
     "verify:publications": "node scripts/validate-publications.mjs --require-config",
+    "verify:production": "npm run build && node scripts/validate-production.mjs",
     "validate:supabase": "node scripts/validate-supabase.mjs",
-    "check": "npm run build && npm run validate && npm run validate:supabase && npm run validate:publications && npm run validate:admin && npm run validate:gallery"
+    "check": "npm run build && npm run validate && npm run validate:supabase && npm run validate:publications && npm run validate:admin && npm run validate:gallery && npm run validate:proposals"
   }
 }

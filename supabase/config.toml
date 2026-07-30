@@ -1,0 +1,2 @@
+[functions.submit-proposal]
+verify_jwt = false

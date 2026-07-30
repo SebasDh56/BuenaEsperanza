@@ -11,6 +11,8 @@ const ADMIN_PUBLICATION_FIELDS = [
   "contenido",
   "imagen_url",
   "imagen_path",
+  "imagen_miniatura_url",
+  "imagen_miniatura_path",
   "imagen_alt",
   "estado",
   "fecha_publicacion",
@@ -60,6 +62,7 @@ async function removeImage(client, path) {
 
 async function uploadImage(client, authorId, processedImage) {
   const path = `${authorId}/${crypto.randomUUID()}.webp`;
+  const thumbnailPath = `${authorId}/${crypto.randomUUID()}.webp`;
   const { error } = await client.storage
     .from(PUBLICATION_BUCKET)
     .upload(path, processedImage.blob, {
@@ -72,9 +75,24 @@ async function uploadImage(client, authorId, processedImage) {
     throw error;
   }
 
+  const { error: thumbnailError } = await client.storage
+    .from(PUBLICATION_BUCKET)
+    .upload(thumbnailPath, processedImage.thumbnailBlob, {
+      cacheControl: "3600",
+      contentType: "image/webp",
+      upsert: false,
+    });
+
+  if (thumbnailError) {
+    await removeImage(client, path).catch(() => {});
+    throw thumbnailError;
+  }
+
   return {
     imagen_path: path,
     imagen_url: authenticatedStorageUrl(path),
+    imagen_miniatura_path: thumbnailPath,
+    imagen_miniatura_url: authenticatedStorageUrl(thumbnailPath),
   };
 }
 
@@ -231,6 +249,12 @@ export async function saveAdminPublication({
     imagen_url: uploadedImage
       ? uploadedImage.imagen_url
       : existingPublication?.imagen_url ?? null,
+    imagen_miniatura_path: uploadedImage
+      ? uploadedImage.imagen_miniatura_path
+      : existingPublication?.imagen_miniatura_path ?? null,
+    imagen_miniatura_url: uploadedImage
+      ? uploadedImage.imagen_miniatura_url
+      : existingPublication?.imagen_miniatura_url ?? null,
   };
 
   let result;
@@ -258,6 +282,7 @@ export async function saveAdminPublication({
   if (result.error || !result.data) {
     if (uploadedImage) {
       await removeImage(client, uploadedImage.imagen_path).catch(() => {});
+      await removeImage(client, uploadedImage.imagen_miniatura_path).catch(() => {});
     }
 
     throw result.error ?? new Error("No se pudo guardar la publicación.");
@@ -272,6 +297,7 @@ export async function saveAdminPublication({
   ) {
     try {
       await removeImage(client, existingPublication.imagen_path);
+      await removeImage(client, existingPublication.imagen_miniatura_path);
     } catch {
       cleanupWarning =
         "La publicación se guardó, pero la imagen anterior requiere limpieza manual.";
@@ -319,6 +345,7 @@ export async function deleteAdminPublication(id) {
 
   try {
     await removeImage(client, publication.imagen_path);
+    await removeImage(client, publication.imagen_miniatura_path);
   } catch (error) {
     error.message =
       "La publicación quedó archivada, pero no se pudo eliminar su imagen. Puedes reintentar.";

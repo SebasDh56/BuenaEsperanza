@@ -8,6 +8,8 @@ const ADMIN_GALLERY_FIELDS = [
   "descripcion",
   "imagen_url",
   "imagen_path",
+  "imagen_miniatura_url",
+  "imagen_miniatura_path",
   "imagen_alt",
   "fecha_toma",
   "credito",
@@ -57,6 +59,7 @@ async function removeImage(client, path) {
 
 async function uploadImage(client, authorId, processedImage) {
   const path = `${authorId}/${crypto.randomUUID()}.webp`;
+  const thumbnailPath = `${authorId}/${crypto.randomUUID()}.webp`;
   const { error } = await client.storage
     .from(GALLERY_BUCKET)
     .upload(path, processedImage.blob, {
@@ -69,9 +72,24 @@ async function uploadImage(client, authorId, processedImage) {
     throw error;
   }
 
+  const { error: thumbnailError } = await client.storage
+    .from(GALLERY_BUCKET)
+    .upload(thumbnailPath, processedImage.thumbnailBlob, {
+      cacheControl: "3600",
+      contentType: "image/webp",
+      upsert: false,
+    });
+
+  if (thumbnailError) {
+    await removeImage(client, path).catch(() => {});
+    throw thumbnailError;
+  }
+
   return {
     imagen_path: path,
     imagen_url: authenticatedStorageUrl(path),
+    imagen_miniatura_path: thumbnailPath,
+    imagen_miniatura_url: authenticatedStorageUrl(thumbnailPath),
   };
 }
 
@@ -170,6 +188,12 @@ export async function saveAdminGalleryItem({
     imagen_url: uploadedImage
       ? uploadedImage.imagen_url
       : existingItem?.imagen_url,
+    imagen_miniatura_path: uploadedImage
+      ? uploadedImage.imagen_miniatura_path
+      : existingItem?.imagen_miniatura_path,
+    imagen_miniatura_url: uploadedImage
+      ? uploadedImage.imagen_miniatura_url
+      : existingItem?.imagen_miniatura_url,
     fecha_toma: values.fecha_toma,
     credito: values.credito,
     estado: values.estado,
@@ -198,6 +222,7 @@ export async function saveAdminGalleryItem({
   if (result.error || !result.data) {
     if (uploadedImage) {
       await removeImage(client, uploadedImage.imagen_path).catch(() => {});
+      await removeImage(client, uploadedImage.imagen_miniatura_path).catch(() => {});
     }
 
     throw result.error ?? new Error("No se pudo guardar la fotografía.");
@@ -212,6 +237,7 @@ export async function saveAdminGalleryItem({
   ) {
     try {
       await removeImage(client, existingItem.imagen_path);
+      await removeImage(client, existingItem.imagen_miniatura_path);
     } catch {
       cleanupWarning =
         "La fotografía se guardó, pero el archivo anterior requiere limpieza manual.";
@@ -252,6 +278,7 @@ export async function deleteAdminGalleryItem(id) {
 
   try {
     await removeImage(client, item.imagen_path);
+    await removeImage(client, item.imagen_miniatura_path);
   } catch (error) {
     error.message =
       "La fotografía quedó archivada, pero no se pudo eliminar su archivo. Puedes reintentar.";

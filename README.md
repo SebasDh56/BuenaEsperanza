@@ -3,9 +3,7 @@
 Sitio institucional estático de la Comunidad La Buena Esperanza de Guachalá.
 La aplicación usa HTML5, CSS3 y JavaScript ES6 modular, sin frameworks.
 
-## Estado
-
-Las Fases 1, 2, 3, 4, 5 y 6 establecen:
+## Funcionalidad
 
 - Arquitectura fuente y salida generada.
 - Sistema visual basado en el logotipo oficial.
@@ -29,16 +27,18 @@ Las Fases 1, 2, 3, 4, 5 y 6 establecen:
 - Autenticación cerrada para administradores y editores.
 - Panel administrativo con CRUD, filtros y programación.
 - Procesamiento local de imágenes a WebP antes de subirlas.
+- Miniaturas WebP independientes para listados y vistas previas.
 - Galería pública conectada a fotografías reales con carga progresiva y detalle.
 - CRUD de galería para administrador y editor, con orden manual y estados.
 - Bucket privado, RLS y pruebas por rol específicas para fotografías.
-- Contacto responsable sin publicar canales todavía no confirmados.
+- Formulario privado de pasantías, tesis y proyectos con PDF opcional.
+- Revisión de propuestas en el panel con roles administrador/editor.
+- Contacto, privacidad y ubicación oficial.
+- Aviso accesible de la publicación más reciente.
 
-El esquema, RLS y Storage de Supabase están aplicados en ComunaPage. La
-verificación remota terminó con 19 de 19 controles de estructura y 9 de 9
-controles de acceso de galería aprobados. La base todavía no contiene
-publicaciones ni fotografías públicas, por lo que se muestran estados vacíos
-controlados.
+El esquema, RLS y Storage están aplicados en ComunaPage. Las propuestas y sus
+PDF permanecen privadas; el navegador público sólo puede enviarlas mediante una
+Edge Function protegida con Turnstile.
 
 ## Requisitos
 
@@ -66,13 +66,13 @@ Después abre `http://127.0.0.1:4173/index.html`.
 ## Estructura
 
 - `src/pages/`: documentos HTML fuente.
-- `src/pages/admin/`: acceso, dashboard y CRUD protegidos de publicaciones y galería.
+- `src/pages/admin/`: acceso y CRUD protegido de publicaciones, galería y propuestas.
 - `src/partials/`: header y footer reutilizables.
 - `css/`: tokens, base, layout, componentes y estilos de páginas.
 - `js/`: módulos JavaScript.
 - `scripts/`: generación y validación sin dependencias.
 - `assets/`: imágenes, logotipo e iconos.
-- `supabase/`: esquema, políticas, seed y pruebas de base de datos.
+- `supabase/`: esquema, políticas, función, Storage y pruebas de base de datos.
 - `docs/`: decisiones técnicas y guías.
 - `dist/`: salida generada; no se versiona.
 
@@ -93,6 +93,6 @@ dominio y la estrategia canonical.
 - La autorización real dependerá de Row Level Security.
 - Los valores locales se guardarán en `.env`, que está ignorado por Git.
 
-Consulta [la guía de Supabase](docs/supabase-configuracion.md) antes de conectar
-el proyecto y [la guía de administración](docs/administracion.md) para crear
-cuentas y gestionar publicaciones.
+Consulta [la guía de administración](docs/administracion.md) para crear cuentas
+y gestionar contenido. Para publicar, sigue
+[la guía de despliegue](docs/despliegue.md).

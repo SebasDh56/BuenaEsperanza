@@ -6,6 +6,7 @@ const PUBLIC_GALLERY_FIELDS = [
   "titulo",
   "descripcion",
   "imagen_path",
+  "imagen_miniatura_path",
   "imagen_alt",
   "fecha_toma",
   "credito",
@@ -34,15 +35,23 @@ export async function listPublishedGalleryItems({
     (data ?? []).map(async (item) => {
       const { data: signed, error: signedError } = await client.storage
         .from(GALLERY_BUCKET)
-        .createSignedUrl(item.imagen_path, 60 * 30);
+        .createSignedUrls(
+          [item.imagen_path, item.imagen_miniatura_path],
+          60 * 30,
+        );
 
-      if (signedError || !signed?.signedUrl) {
+      if (
+        signedError ||
+        !signed?.[0]?.signedUrl ||
+        !signed?.[1]?.signedUrl
+      ) {
         return null;
       }
 
       return {
         ...item,
-        imageUrl: signed.signedUrl,
+        imageUrl: signed[0].signedUrl,
+        thumbnailUrl: signed[1].signedUrl,
       };
     }),
   );

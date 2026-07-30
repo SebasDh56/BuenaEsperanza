@@ -263,6 +263,22 @@
   color: var(--color-white);
 }
 
+.site-footer__contact {
+  display: grid;
+  gap: var(--space-3);
+  font-style: normal;
+}
+
+.site-footer__contact a {
+  width: fit-content;
+  color: rgb(255 255 255 / 82%);
+  overflow-wrap: anywhere;
+}
+
+.site-footer__contact a:hover {
+  color: var(--color-maize-300);
+}
+
 .pending-contact {
   padding: var(--space-4);
   border: 1px solid rgb(255 255 255 / 14%);
