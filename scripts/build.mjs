@@ -1,4 +1,12 @@
-import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import {
+  copyFile,
+  cp,
+  mkdir,
+  readFile,
+  readdir,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -273,6 +281,11 @@ async function copyStaticDirectories() {
       filter: (source) => !sourceOnlyAssets.has(basename(source)),
     });
   }
+
+  await copyFile(
+    join(projectRoot, "assets", "favicon.ico"),
+    join(outputDirectory, "favicon.ico"),
+  );
 }
 
 async function writeRuntimeConfig(config) {
