@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "npm run build && npx wrangler deploy",
     "validate": "node scripts/validate.mjs",
     "validate:admin": "node scripts/validate-admin.mjs",
     "validate:gallery": "node scripts/validate-gallery.mjs",
