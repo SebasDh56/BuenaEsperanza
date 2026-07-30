@@ -10,6 +10,7 @@ const PUBLICATION_FIELDS = [
   "resumen",
   "contenido",
   "imagen_path",
+  "imagen_miniatura_path",
   "imagen_alt",
   "fecha_publicacion",
 ].join(",");
@@ -53,6 +54,10 @@ async function withSignedImage(client, publication) {
   return {
     ...publication,
     imageUrl: await createSignedImageUrl(client, publication.imagen_path),
+    thumbnailUrl: await createSignedImageUrl(
+      client,
+      publication.imagen_miniatura_path,
+    ),
   };
 }
 

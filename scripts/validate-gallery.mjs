@@ -84,8 +84,10 @@ async function validateModules() {
     "El servicio público no limita el estado a publicado.",
   );
   assert(
-    /\.createSignedUrl\(item\.imagen_path, 60 \* 30\)/.test(publicService),
-    "La galería no crea enlaces temporales para el bucket privado.",
+    /\.createSignedUrls\([\s\S]*item\.imagen_path,[\s\S]*item\.imagen_miniatura_path/.test(
+      publicService,
+    ),
+    "La galería no crea enlaces firmados para la imagen y su miniatura.",
   );
   assert(
     /\.range\(offset, offset \+ limit - 1\)/.test(publicService),
@@ -109,6 +111,10 @@ async function validateModules() {
   assert(
     /\.upload\(path, processedImage\.blob/.test(adminService),
     "El servicio administrativo no sube la imagen procesada.",
+  );
+  assert(
+    /\.upload\(thumbnailPath, processedImage\.thumbnailBlob/.test(adminService),
+    "El servicio administrativo no sube la miniatura procesada.",
   );
 }
 

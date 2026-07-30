@@ -1402,3 +1402,223 @@
     gap: var(--space-1);
   }
 }
+
+.contact-channels {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-channels li {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.contact-channels strong {
+  color: var(--color-green-950);
+}
+
+.contact-channels a {
+  width: fit-content;
+  color: var(--color-green-800);
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.proposal-form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  align-items: start;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.proposal-form {
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.form-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.form-field label {
+  color: var(--color-green-950);
+  font-weight: 800;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #a9b8af;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  background: var(--color-white);
+  font: inherit;
+}
+
+.form-field textarea {
+  min-height: 10rem;
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-green-700);
+  outline: 0.2rem solid rgb(35 119 64 / 22%);
+}
+
+.form-field small {
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+}
+
+.form-consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+  color: var(--color-muted);
+}
+
+.form-consent input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.2rem;
+}
+
+.proposal-form__trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-status {
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-green-50);
+}
+
+.form-status[data-type="error"] {
+  color: #7a1515;
+  background: #fff0f0;
+}
+
+.form-status[data-type="success"] {
+  color: var(--color-green-950);
+  background: var(--color-green-100);
+}
+
+.legal-content h2 {
+  margin-top: var(--space-10);
+}
+
+.section-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-8);
+}
+
+.gallery-preview .empty-state {
+  grid-column: 1 / -1;
+}
+
+.gallery-preview a {
+  display: block;
+  height: 100%;
+  color: inherit;
+}
+
+.latest-announcement {
+  width: min(92vw, 54rem);
+  max-height: 90dvh;
+  padding: 0;
+  overflow: auto;
+  border: 0;
+  border-radius: var(--radius-lg);
+  color: var(--color-ink);
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 38%);
+}
+
+.latest-announcement::backdrop {
+  background: rgb(3 28 13 / 72%);
+  backdrop-filter: blur(0.2rem);
+}
+
+.latest-announcement__content {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  background: var(--color-white);
+}
+
+.latest-announcement__content > img {
+  width: 100%;
+  height: 100%;
+  min-height: 24rem;
+  object-fit: cover;
+}
+
+.latest-announcement__copy {
+  align-self: center;
+  padding: clamp(2rem, 6vw, 4rem);
+}
+
+.latest-announcement__copy h2 {
+  color: var(--color-green-950);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.latest-announcement__close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgb(7 55 25 / 18%);
+  border-radius: 50%;
+  color: var(--color-green-950);
+  background: rgb(255 255 255 / 92%);
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+
+@media (max-width: 62rem) {
+  .proposal-form-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 42rem) {
+  .form-grid,
+  .latest-announcement__content {
+    grid-template-columns: 1fr;
+  }
+
+  .latest-announcement__content > img {
+    min-height: 12rem;
+    max-height: 16rem;
+  }
+}

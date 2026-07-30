@@ -56,6 +56,8 @@ Las rutas protegidas son:
 - `/admin/editor.html`;
 - `/admin/galeria.html`;
 - `/admin/galeria-editor.html`.
+- `/admin/propuestas.html`;
+- `/admin/propuesta.html`.
 
 Sin una sesión válida se redirige al acceso. Esta redirección mejora la
 experiencia, pero la seguridad real se aplica mediante RLS en PostgreSQL y
@@ -73,6 +75,7 @@ El botón **Cerrar sesión** elimina únicamente la sesión del navegador actual
 - Sube archivos solamente dentro de la carpeta asociada con su UUID.
 - No cambia roles ni administra publicaciones privadas de otras cuentas.
 - Crea, publica, ordena, archiva y elimina únicamente sus fotografías.
+- Revisa propuestas y actualiza su estado y notas internas.
 
 ### Administrador
 
@@ -80,6 +83,7 @@ El botón **Cerrar sesión** elimina únicamente la sesión del navegador actual
 - Puede reemplazar la imagen de una publicación creada por otro autor.
 - Puede administrar fotografías creadas por cualquier autor.
 - Puede cambiar roles desde la base de datos.
+- Puede eliminar definitivamente propuestas y sus documentos PDF.
 - No gestiona usuarios de Auth desde el frontend; las cuentas se crean
   manualmente en Dashboard.
 
@@ -110,6 +114,7 @@ El formulario acepta JPG, PNG o WebP de hasta 20 MB. Antes de subir:
 - corrige la orientación cuando el navegador lo permite;
 - reduce el lado mayor a 2400 px;
 - genera WebP con calidad progresiva;
+- genera una miniatura WebP independiente de hasta 720 px;
 - intenta mantener el resultado debajo de 1.5 MB;
 - rechaza cualquier salida superior a 5 MB.
 
@@ -125,10 +130,22 @@ temporales para mostrar las imágenes.
 5. Define un orden: los números menores aparecen primero.
 6. Guarda como borrador, publica inmediatamente o archiva.
 
-La galería no usa álbumes ni categorías en esta fase. Una ficha siempre requiere
-imagen; el archivo recibe el mismo procesamiento WebP usado por publicaciones.
+Una ficha de galería siempre requiere imagen; el archivo recibe el mismo
+procesamiento WebP y miniatura usado por publicaciones.
 
-## 8. Archivar o eliminar
+## 8. Revisar propuestas
+
+1. Abre **Propuestas** para filtrar por tipo y estado.
+2. Selecciona **Revisar** para consultar los datos privados.
+3. Descarga el PDF desde el enlace firmado cuando exista.
+4. Cambia el estado y guarda notas internas.
+5. El administrador puede eliminar la propuesta y el PDF de forma permanente.
+
+Una propuesta admite descripción, PDF o ambas opciones. Los registros tienen
+una fecha máxima de conservación de 12 meses y nunca se publican
+automáticamente.
+
+## 9. Archivar o eliminar
 
 **Archivar** oculta el contenido sin borrar su registro ni su imagen.
 
@@ -142,7 +159,7 @@ Si Storage falla, el registro permanece archivado y la acción puede
 reintentarse. Este orden evita dejar visible una publicación con su imagen
 eliminada.
 
-## 9. Comprobaciones recomendadas
+## 10. Comprobaciones recomendadas
 
 Antes de publicar contenido real:
 

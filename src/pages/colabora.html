@@ -47,7 +47,7 @@
             <p class="eyebrow">Dos caminos</p>
             <h2 id="collaboration-model-title">Propuestas que deben generar valor comunitario</h2>
             <p>
-              El sitio diferenciará las iniciativas recibidas desde fuera y los
+              El sitio diferencia las iniciativas recibidas desde fuera y los
               proyectos definidos por la propia comunidad.
             </p>
           </div>
@@ -89,7 +89,7 @@
       <section class="section section--soft" aria-labelledby="collaboration-process-title">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">Proceso propuesto</p>
+            <p class="eyebrow">Proceso de revisión</p>
             <h2 id="collaboration-process-title">De la idea a una decisión informada</h2>
           </div>
           <ol class="process-steps">
@@ -125,27 +125,127 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="collaboration-form-title">
-        <div class="container content-split">
+      <section
+        class="section"
+        id="formulario-propuesta"
+        aria-labelledby="collaboration-form-title"
+      >
+        <div class="container proposal-form-layout">
           <div class="prose">
-            <p class="eyebrow">Formulario futuro</p>
-            <h2 id="collaboration-form-title">Información mínima prevista</h2>
-            <ul class="check-list">
-              <li>Identificación y organización responsable.</li>
-              <li>Objetivo y relación con una necesidad comunitaria.</li>
-              <li>Plan, duración y personas participantes.</li>
-              <li>Uso previsto de información, imágenes o testimonios.</li>
-              <li>Beneficios, compromisos y resultados entregables.</li>
-            </ul>
-          </div>
-          <aside class="notice-panel" role="note">
-            <span class="content-note">No disponible todavía</span>
-            <h2>Envío de propuestas</h2>
+            <p class="eyebrow">Envío privado</p>
+            <h2 id="collaboration-form-title">Presenta tu propuesta</h2>
             <p>
-              El formulario se habilitará únicamente después de definir
-              privacidad, antispam, moderación y políticas RLS.
+              La información será visible únicamente para el equipo autorizado.
+              Completa una descripción o adjunta un PDF; puedes usar ambas
+              opciones.
             </p>
-          </aside>
+            <ul class="check-list">
+              <li>Explica el beneficio esperado para la comunidad.</li>
+              <li>Indica quién será responsable y una forma de contacto.</li>
+              <li>No incluyas datos sensibles que no sean necesarios.</li>
+              <li>El PDF es opcional y admite hasta 5 MB.</li>
+            </ul>
+            <p>
+              Canal oficial:
+              <a href="mailto:comitepromejorasbe@gmail.com">comitepromejorasbe@gmail.com</a>
+            </p>
+          </div>
+
+          <form
+            class="proposal-form"
+            enctype="multipart/form-data"
+            data-proposal-form
+            novalidate
+          >
+            <div class="form-status" role="status" aria-live="polite" data-proposal-status hidden></div>
+
+            <div class="form-field">
+              <label for="proposal-type">Tipo de propuesta <span aria-hidden="true">*</span></label>
+              <select id="proposal-type" name="tipo" required>
+                <option value="">Selecciona una opción</option>
+                <option value="pasantia">Pasantía o práctica</option>
+                <option value="tesis">Tesis</option>
+                <option value="investigacion">Investigación académica</option>
+                <option value="proyecto_comunitario">Proyecto comunitario</option>
+                <option value="apoyo_institucional">Apoyo institucional</option>
+                <option value="otro">Otra propuesta</option>
+              </select>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="proposal-name">Nombre responsable <span aria-hidden="true">*</span></label>
+                <input id="proposal-name" name="nombre_responsable" type="text" minlength="2" maxlength="120" autocomplete="name" required>
+              </div>
+              <div class="form-field">
+                <label for="proposal-organization">Institución u organización</label>
+                <input id="proposal-organization" name="organizacion" type="text" minlength="2" maxlength="180" autocomplete="organization">
+              </div>
+              <div class="form-field">
+                <label for="proposal-email">Correo <span aria-hidden="true">*</span></label>
+                <input id="proposal-email" name="email" type="email" maxlength="254" autocomplete="email" required>
+              </div>
+              <div class="form-field">
+                <label for="proposal-phone">Teléfono</label>
+                <input id="proposal-phone" name="telefono" type="tel" minlength="7" maxlength="30" autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="proposal-title">Título de la propuesta <span aria-hidden="true">*</span></label>
+              <input id="proposal-title" name="titulo" type="text" minlength="5" maxlength="180" required>
+            </div>
+
+            <div class="form-field">
+              <label for="proposal-duration">Duración estimada</label>
+              <input id="proposal-duration" name="duracion_estimada" type="text" minlength="2" maxlength="120" placeholder="Ejemplo: 3 meses">
+            </div>
+
+            <div class="form-field">
+              <label for="proposal-description">Descripción</label>
+              <textarea
+                id="proposal-description"
+                name="descripcion"
+                minlength="50"
+                maxlength="3000"
+                rows="8"
+                aria-describedby="proposal-content-help"
+              ></textarea>
+              <small id="proposal-content-help">Describe el objetivo, las actividades y el beneficio comunitario. Es obligatoria si no adjuntas un PDF.</small>
+            </div>
+
+            <div class="form-field">
+              <label for="proposal-file">Documento PDF</label>
+              <input
+                id="proposal-file"
+                name="archivo"
+                type="file"
+                accept="application/pdf,.pdf"
+                aria-describedby="proposal-file-help"
+              >
+              <small id="proposal-file-help">Opcional, máximo 5 MB. Es obligatorio si no completas la descripción.</small>
+            </div>
+
+            <div class="proposal-form__trap" aria-hidden="true">
+              <label for="proposal-website">Sitio web</label>
+              <input id="proposal-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div data-turnstile-container></div>
+
+            <label class="form-consent">
+              <input name="consentimiento" type="checkbox" required>
+              <span>
+                Acepto el tratamiento de mis datos para revisar y responder
+                esta propuesta, según la
+                <a href="/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.
+              </span>
+            </label>
+
+            <button class="button button--primary" type="submit" data-proposal-submit>
+              Enviar propuesta
+            </button>
+          </form>
         </div>
       </section>
     </main>

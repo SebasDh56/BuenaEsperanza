@@ -43,7 +43,7 @@ function createFigure(item, openDetail) {
   });
   const image = element("img", {
     attributes: {
-      src: item.imageUrl,
+      src: item.thumbnailUrl,
       alt: item.imagen_alt,
       loading: "lazy",
       decoding: "async",
@@ -72,8 +72,8 @@ function createFigure(item, openDetail) {
 function showEmptyState(container) {
   const empty = element("div", { className: "empty-state" });
   empty.append(
-    element("p", { className: "eyebrow", text: "Archivo en preparación" }),
-    element("h2", { text: "Aún no hay fotografías publicadas" }),
+    element("p", { className: "eyebrow", text: "Memoria visual" }),
+    element("h2", { text: "No hay fotografías publicadas" }),
     element("p", {
       text: "La galería mostrará únicamente imágenes reales, autorizadas y contextualizadas por la comunidad.",
     }),

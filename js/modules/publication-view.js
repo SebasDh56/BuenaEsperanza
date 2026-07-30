@@ -58,15 +58,18 @@ function detailUrl(publication) {
   return `${url.pathname}${url.search}`;
 }
 
-function createImage(publication, { eager = false } = {}) {
+function createImage(publication, { eager = false, thumbnail = false } = {}) {
   const typeCopy = TYPE_COPY[publication.tipo];
-  const hasPublishedImage = Boolean(publication.imageUrl);
+  const source = thumbnail
+    ? publication.thumbnailUrl ?? publication.imageUrl
+    : publication.imageUrl;
+  const hasPublishedImage = Boolean(source);
   const image = element("img", {
     attributes: {
-      src: publication.imageUrl ?? typeCopy.fallbackImage,
+      src: source ?? typeCopy.fallbackImage,
       alt: hasPublishedImage
         ? publication.imagen_alt
-        : `Ilustración temporal para ${typeCopy.label.toLowerCase()}`,
+        : `Ilustración editorial para ${typeCopy.label.toLowerCase()}`,
       width: "800",
       height: "500",
       loading: eager ? "eager" : "lazy",
@@ -92,7 +95,7 @@ export function createPublicationCard(publication, { compact = false } = {}) {
       "aria-label": `Leer ${publication.titulo}`,
     },
   });
-  imageLink.append(createImage(publication));
+  imageLink.append(createImage(publication, { thumbnail: true }));
 
   const content = element("div", { className: "publication-card__content" });
   const meta = element("div", { className: "publication-card__meta" });
@@ -184,10 +187,10 @@ export function createEmptyState(type = null) {
   });
   const heading = element("h3", {
     text: isSingleType
-      ? `Todavía no hay ${copy.pluralLabel.toLowerCase()} ${
+      ? `No hay ${copy.pluralLabel.toLowerCase()} ${
           type === "noticia" ? "publicadas" : "publicados"
         }`
-      : "Todavía no hay publicaciones",
+      : "No hay publicaciones",
   });
   const paragraph = element("p", {
     text: isSingleType

@@ -19,7 +19,7 @@ export function getPublicSupabaseClient() {
 
   if (!supabaseUrl || !supabasePublishableKey) {
     throw new PublicDataConfigurationError(
-      "La conexión pública con Supabase todavía no está configurada.",
+      "La conexión pública con Supabase no está configurada.",
     );
   }
 
@@ -56,7 +56,7 @@ export function getAuthenticatedSupabaseClient() {
 
   if (!supabaseUrl || !supabasePublishableKey) {
     throw new PublicDataConfigurationError(
-      "La conexión con Supabase todavía no está configurada.",
+      "La conexión con Supabase no está configurada.",
     );
   }
 

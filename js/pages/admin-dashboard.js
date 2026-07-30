@@ -1,5 +1,6 @@
-import { getAdminDashboardData } from "../modules/admin-service.js";
+import { getAdminDashboardData } from "../modules/admin-service.js?v=20260730";
 import { showNotification } from "../modules/notifications.js";
+import { countNewProposals } from "../modules/proposal-admin-service.js?v=20260730";
 
 const dateFormatter = new Intl.DateTimeFormat("es-EC", {
   dateStyle: "medium",
@@ -45,7 +46,7 @@ function renderRecent(container, publications) {
   if (publications.length === 0) {
     const empty = createElement("div", { className: "admin-empty-state" });
     empty.append(
-      createElement("h2", { text: "Todavía no hay publicaciones" }),
+      createElement("h2", { text: "No hay publicaciones" }),
       createElement("p", {
         text: "Crea la primera publicación cuando exista información real confirmada.",
       }),
@@ -85,11 +86,15 @@ export async function initialize() {
   const recentContainer = document.querySelector("[data-dashboard-recent]");
 
   try {
-    const data = await getAdminDashboardData();
+    const [data, newProposals] = await Promise.all([
+      getAdminDashboardData(),
+      countNewProposals(),
+    ]);
     const values = {
       archived: data.archived,
       drafts: data.drafts,
       published: data.published,
+      newProposals,
       scheduled: data.scheduled,
       total: data.total,
     };
