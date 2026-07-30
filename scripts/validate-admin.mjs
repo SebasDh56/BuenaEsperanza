@@ -16,6 +16,8 @@ const adminPages = [
   ["dashboard.html", 'data-admin-page="dashboard"'],
   ["publicaciones.html", "data-admin-publication-list"],
   ["editor.html", "data-publication-editor"],
+  ["galeria.html", "data-admin-gallery-list"],
+  ["galeria-editor.html", "data-gallery-editor"],
 ];
 
 function assert(condition, message) {
@@ -66,10 +68,14 @@ async function validateModules() {
     join(projectRoot, "js", "modules", "admin-service.js"),
     join(projectRoot, "js", "modules", "image-processor.js"),
     join(projectRoot, "js", "modules", "validation.js"),
+    join(projectRoot, "js", "modules", "gallery-admin-service.js"),
+    join(projectRoot, "js", "modules", "gallery-validation.js"),
     join(projectRoot, "js", "pages", "admin-login.js"),
     join(projectRoot, "js", "pages", "admin-dashboard.js"),
     join(projectRoot, "js", "pages", "admin-publications.js"),
     join(projectRoot, "js", "pages", "admin-editor.js"),
+    join(projectRoot, "js", "pages", "admin-gallery.js"),
+    join(projectRoot, "js", "pages", "admin-gallery-editor.js"),
   ];
   const sources = new Map();
 

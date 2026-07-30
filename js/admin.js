@@ -103,6 +103,8 @@ async function initializeProtectedPage() {
     const pageModules = {
       dashboard: () => import("./pages/admin-dashboard.js"),
       editor: () => import("./pages/admin-editor.js"),
+      galeria: () => import("./pages/admin-gallery.js"),
+      "galeria-editor": () => import("./pages/admin-gallery-editor.js"),
       publicaciones: () => import("./pages/admin-publications.js"),
     };
     const loadPage = pageModules[document.body.dataset.adminPage];

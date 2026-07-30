@@ -31,6 +31,24 @@ const files = {
     "policies",
     "202607280004_storage_admin_upload.sql",
   ),
+  gallerySchema: join(
+    projectRoot,
+    "supabase",
+    "migrations",
+    "202607290005_gallery_schema.sql",
+  ),
+  galleryRls: join(
+    projectRoot,
+    "supabase",
+    "policies",
+    "202607290006_gallery_rls.sql",
+  ),
+  galleryStorage: join(
+    projectRoot,
+    "supabase",
+    "policies",
+    "202607290007_gallery_storage.sql",
+  ),
   seed: join(projectRoot, "supabase", "seed", "seed.sql"),
   schemaTest: join(
     projectRoot,
@@ -51,6 +69,12 @@ const files = {
     "supabase",
     "tests",
     "verify_deployment.sql",
+  ),
+  galleryAccessTest: join(
+    projectRoot,
+    "supabase",
+    "tests",
+    "verify_gallery_access.sql",
   ),
 };
 
@@ -182,6 +206,60 @@ async function validate() {
     "Storage no permite que el administrador reemplace imágenes de otros autores.",
   );
 
+  requirePattern(
+    contents.gallerySchema,
+    /create table public\.galeria_items/i,
+    "El esquema de galería no crea public.galeria_items.",
+  );
+  requirePattern(
+    contents.gallerySchema,
+    /create trigger prepare_gallery_item_before_write/i,
+    "Falta el trigger de normalización de galería.",
+  );
+  requirePattern(
+    contents.galleryRls,
+    /alter table public\.galeria_items enable row level security/i,
+    "RLS no está habilitado en galeria_items.",
+  );
+  requirePattern(
+    contents.galleryRls,
+    /to anon[\s\S]*estado = 'publicado'/i,
+    "La lectura anónima de galería no restringe el estado.",
+  );
+  forbidPattern(
+    contents.galleryRls,
+    /grant\s+(?:all|insert|update|delete)[\s\S]{0,80}\bto anon\b/i,
+    "Anon recibió un privilegio de escritura en galería.",
+  );
+  requirePattern(
+    contents.galleryStorage,
+    /'galeria',[\s\S]*false,[\s\S]*5242880/i,
+    "El bucket galeria no es privado o no limita archivos a 5 MB.",
+  );
+  requirePattern(
+    contents.galleryStorage,
+    /array\['image\/jpeg', 'image\/png', 'image\/webp'\]/i,
+    "El bucket galeria no limita los MIME permitidos.",
+  );
+
+  if (
+    countMatches(
+      contents.galleryRls,
+      /create policy\s+galeria_items_/gi,
+    ) !== 5
+  ) {
+    errors.push("Galería debe declarar exactamente cinco políticas RLS.");
+  }
+
+  if (
+    countMatches(
+      contents.galleryStorage,
+      /create policy\s+storage_galeria_/gi,
+    ) !== 5
+  ) {
+    errors.push("Storage debe declarar exactamente cinco políticas de galería.");
+  }
+
   if (
     countMatches(
       contents.storage,
@@ -231,6 +309,26 @@ async function validate() {
     contents.deploymentTest,
     /verificación de sólo lectura/i,
     "Falta la verificación de despliegue de sólo lectura.",
+  );
+  requirePattern(
+    contents.galleryAccessTest,
+    /set local role anon/i,
+    "La verificación de galería no simula el rol anon.",
+  );
+  requirePattern(
+    contents.galleryAccessTest,
+    /set local role authenticated/i,
+    "La verificación de galería no simula usuarios autenticados.",
+  );
+  requirePattern(
+    contents.galleryAccessTest,
+    /9\/9 controles de acceso de galería correctos/i,
+    "La verificación de galería no declara sus nueve controles.",
+  );
+  requirePattern(
+    contents.galleryAccessTest,
+    /rollback;[\s\S]*9\/9 controles de acceso de galería correctos/i,
+    "La verificación de galería no revierte sus datos.",
   );
 
   const trackedTextFiles = [

@@ -48,6 +48,21 @@ de subir:
 No se admitirá un tamaño ilimitado porque puede agotar la memoria del navegador
 y facilitar abuso del Storage.
 
+## Galería
+
+- Se usa una colección plana de fotografías; no se crean álbumes ni categorías
+  sin una necesidad comunitaria confirmada.
+- Cada ficha requiere título, descripción, imagen y texto alternativo.
+- La fecha de la fotografía y el crédito son opcionales; sólo se publican cuando
+  están confirmados.
+- El orden es manual mediante un número entre 0 y 9999.
+- Los estados disponibles son `borrador`, `publicado` y `archivado`.
+- Administradores y editores publican directamente. El editor administra sólo
+  sus fotografías; el administrador puede administrar todas.
+- La eliminación definitiva archiva primero, elimina el objeto de Storage y
+  después elimina la fila.
+- La galería no se rellenará con fotografías generadas o demostrativas.
+
 ## Colaboración comunitaria
 
 El sitio distinguirá:
@@ -63,7 +78,6 @@ el formulario.
 
 ## Pendientes funcionales
 
-- Modelo definitivo de la galería.
 - Datos de contacto.
 - Campos exactos del formulario de propuestas.
 - Dominio definitivo para canonical y Open Graph.

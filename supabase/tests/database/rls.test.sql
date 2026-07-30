@@ -116,7 +116,61 @@ values
     'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
   );
 
-select plan(15);
+insert into public.galeria_items (
+  id,
+  titulo,
+  descripcion,
+  imagen_url,
+  imagen_path,
+  imagen_alt,
+  fecha_toma,
+  credito,
+  estado,
+  orden,
+  creado_por
+)
+values
+  (
+    '20000000-0000-4000-8000-000000000001',
+    'Fotografía publicada del editor uno',
+    'Descripción confirmada para probar la lectura pública de la galería.',
+    'https://example.test/storage/galeria-editor-uno-publicada.webp',
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa/44444444-4444-4444-8444-444444444444.webp',
+    'Imagen de prueba publicada por el editor uno',
+    current_date - 1,
+    'Archivo comunitario',
+    'publicado',
+    10,
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
+  ),
+  (
+    '20000000-0000-4000-8000-000000000002',
+    'Fotografía borrador del editor uno',
+    'Descripción confirmada para probar el borrador de la galería.',
+    'https://example.test/storage/galeria-editor-uno-borrador.webp',
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa/55555555-5555-4555-8555-555555555555.webp',
+    'Imagen de prueba en borrador del editor uno',
+    null,
+    null,
+    'borrador',
+    20,
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
+  ),
+  (
+    '20000000-0000-4000-8000-000000000003',
+    'Fotografía borrador del editor dos',
+    'Descripción confirmada para probar el aislamiento entre editores.',
+    'https://example.test/storage/galeria-editor-dos-borrador.webp',
+    'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb/66666666-6666-4666-8666-666666666666.webp',
+    'Imagen de prueba en borrador del editor dos',
+    null,
+    null,
+    'borrador',
+    30,
+    'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
+  );
+
+select plan(24);
 
 select is(
   (select count(*) from public.profiles),
@@ -152,6 +206,12 @@ select is(
   'Anon no ve una publicación programada para el futuro.'
 );
 
+select is(
+  (select count(*) from public.galeria_items),
+  1::bigint,
+  'Anon sólo ve fotografías publicadas.'
+);
+
 reset role;
 select set_config(
   'request.jwt.claim.sub',
@@ -164,6 +224,53 @@ select is(
   (select count(*) from public.publicaciones),
   3::bigint,
   'El editor uno ve sus tres registros.'
+);
+
+select is(
+  (select count(*) from public.galeria_items),
+  2::bigint,
+  'El editor uno ve su publicación y su borrador de galería.'
+);
+
+select is(
+  (
+    with changed as (
+      update public.galeria_items
+      set titulo = 'Intento no autorizado en galería'
+      where id = '20000000-0000-4000-8000-000000000003'
+      returning id
+    )
+    select count(*) from changed
+  ),
+  0::bigint,
+  'Un editor no modifica fotografías ajenas.'
+);
+
+select is(
+  (
+    with removed as (
+      delete from public.galeria_items
+      where id = '20000000-0000-4000-8000-000000000003'
+      returning id
+    )
+    select count(*) from removed
+  ),
+  0::bigint,
+  'Un editor no elimina fotografías ajenas.'
+);
+
+select is(
+  (
+    with published as (
+      update public.galeria_items
+      set estado = 'publicado'
+      where id = '20000000-0000-4000-8000-000000000002'
+      returning id
+    )
+    select count(*) from published
+  ),
+  1::bigint,
+  'El editor puede publicar directamente su fotografía.'
 );
 
 select is(
@@ -265,6 +372,12 @@ select is(
   'El editor dos ve su borrador y las dos publicaciones vigentes.'
 );
 
+select is(
+  (select count(*) from public.galeria_items),
+  3::bigint,
+  'El editor dos ve las dos fotografías publicadas y su borrador.'
+);
+
 reset role;
 select set_config(
   'request.jwt.claim.sub',
@@ -277,6 +390,26 @@ select is(
   (select count(*) from public.publicaciones),
   4::bigint,
   'El administrador ve todas las publicaciones.'
+);
+
+select is(
+  (select count(*) from public.galeria_items),
+  3::bigint,
+  'El administrador ve todas las fotografías.'
+);
+
+select is(
+  (
+    with changed as (
+      update public.galeria_items
+      set titulo = 'Fotografía editada por el administrador'
+      where id = '20000000-0000-4000-8000-000000000003'
+      returning id
+    )
+    select count(*) from changed
+  ),
+  1::bigint,
+  'El administrador puede editar fotografías ajenas.'
 );
 
 select is(
@@ -313,6 +446,12 @@ select is(
   (select count(*) from public.publicaciones),
   2::bigint,
   'Anon ve las dos publicaciones inmediatas después del cambio.'
+);
+
+select is(
+  (select count(*) from public.galeria_items),
+  2::bigint,
+  'Anon ve las dos fotografías publicadas después del cambio.'
 );
 
 select * from finish();

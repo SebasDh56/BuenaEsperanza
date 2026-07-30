@@ -14,6 +14,11 @@ with checks (verificacion, resultado, detalle) as (
       'Debe existir public.publicaciones.'
     ),
     (
+      'Tabla galeria_items',
+      to_regclass('public.galeria_items') is not null,
+      'Debe existir public.galeria_items.'
+    ),
+    (
       'RLS en profiles',
       coalesce(
         (
@@ -44,6 +49,21 @@ with checks (verificacion, resultado, detalle) as (
       'RLS debe estar habilitado.'
     ),
     (
+      'RLS en galeria_items',
+      coalesce(
+        (
+          select table_class.relrowsecurity
+          from pg_class as table_class
+          join pg_namespace as table_schema
+            on table_schema.oid = table_class.relnamespace
+          where table_schema.nspname = 'public'
+            and table_class.relname = 'galeria_items'
+        ),
+        false
+      ),
+      'RLS debe estar habilitado.'
+    ),
+    (
       'Políticas de profiles',
       (
         select count(*) = 2
@@ -64,11 +84,28 @@ with checks (verificacion, resultado, detalle) as (
       'Deben existir cinco políticas.'
     ),
     (
+      'Políticas de galería',
+      (
+        select count(*) = 5
+        from pg_policies
+        where schemaname = 'public'
+          and tablename = 'galeria_items'
+      ),
+      'Deben existir cinco políticas.'
+    ),
+    (
       'Anon sin escritura',
       not has_table_privilege('anon', 'public.publicaciones', 'INSERT')
       and not has_table_privilege('anon', 'public.publicaciones', 'UPDATE')
       and not has_table_privilege('anon', 'public.publicaciones', 'DELETE'),
       'Anon no debe escribir publicaciones.'
+    ),
+    (
+      'Anon sin escritura en galería',
+      not has_table_privilege('anon', 'public.galeria_items', 'INSERT')
+      and not has_table_privilege('anon', 'public.galeria_items', 'UPDATE')
+      and not has_table_privilege('anon', 'public.galeria_items', 'DELETE'),
+      'Anon no debe escribir fotografías.'
     ),
     (
       'Trigger de perfiles',
@@ -91,6 +128,19 @@ with checks (verificacion, resultado, detalle) as (
         false
       ),
       'El bucket publicaciones debe existir y ser privado.'
+    ),
+    (
+      'Bucket galería privado',
+      coalesce(
+        (
+          select not public
+            and file_size_limit = 5242880
+          from storage.buckets
+          where id = 'galeria'
+        ),
+        false
+      ),
+      'El bucket galeria debe existir, ser privado y limitar 5 MB.'
     ),
     (
       'Límite de Storage',
@@ -131,6 +181,17 @@ with checks (verificacion, resultado, detalle) as (
           and policyname like 'storage_publicaciones_%'
       ),
       'Deben existir cinco políticas específicas.'
+    ),
+    (
+      'Políticas de Storage para galería',
+      (
+        select count(*) = 5
+        from pg_policies
+        where schemaname = 'storage'
+          and tablename = 'objects'
+          and policyname like 'storage_galeria_%'
+      ),
+      'Deben existir cinco políticas específicas para galería.'
     ),
     (
       'Carga administrativa de imágenes',
